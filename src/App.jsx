@@ -1,8 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { Provider, useSelector } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from './redux/store';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ScrollToTop } from './utils/utils';
 import AdminDashboardLayout from './components/DashbaordLayout/AdminDashboard/AdminDashboardLayout';
 
@@ -36,49 +33,38 @@ const LoadingFallback = () => (
   </div>
 );
 
-const ProtectedRoute = () => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  return isAuthenticated ? <Outlet /> : <Navigate to="/" replace />;
-};
-
 /**
  * The main application component with optimized routing and lazy loading.
  */
 export default function App() {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Router>
-          <Suspense fallback={<LoadingFallback />}>
-            <ScrollToTop />
-            <Routes>
-              {/* Authentication routes */}
-              <Route path="/" element={<SignIn />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/otp" element={<Otp />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
+    <Router>
+      <Suspense fallback={<LoadingFallback />}>
+        <ScrollToTop />
+        <Routes>
+          {/* Authentication routes */}
+          <Route path="/" element={<SignIn />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/otp" element={<Otp />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
-              {/* Admin Dashboard routes (with layout) */}
-              <Route element={<ProtectedRoute />}>
-                <Route path="/dashboard/*" element={<AdminDashboardLayout />}>
-                  <Route index element={<DashboardHome />} />
-                  <Route path="salons" element={<Salons />} />
-                  <Route path="independents" element={<Independents />} />
-                  <Route path="users" element={<Users />} />
-                  {/* <Route path="monitor-hiring" element={<MonitorHiring />} />
-                  <Route path="dispute-resolution" element={<DisputeResolution />} />
-                  <Route path="system-management" element={<SystemManagement />} />
-                  <Route path="commission-revenue" element={<CommissionRevenue />} />
-                  <Route path="payout-management" element={<PayoutManagement />} />
-                  <Route path="create-promotions" element={<CreatePromotions />} />
-                  <Route path="push-notification" element={<PushNotification />} /> */}
-                </Route>
-              </Route>
-            </Routes>
-          </Suspense>
-        </Router>
-      </PersistGate>
-    </Provider>
+          {/* Admin Dashboard routes (with layout) */}
+          <Route path="/dashboard/*" element={<AdminDashboardLayout />}>
+            <Route index element={<DashboardHome />} />
+            <Route path="salons" element={<Salons />} />
+            <Route path="independents" element={<Independents />} />
+            <Route path="users" element={<Users />} />
+            {/* <Route path="monitor-hiring" element={<MonitorHiring />} />
+            <Route path="dispute-resolution" element={<DisputeResolution />} />
+            <Route path="system-management" element={<SystemManagement />} />
+            <Route path="commission-revenue" element={<CommissionRevenue />} />
+            <Route path="payout-management" element={<PayoutManagement />} />
+            <Route path="create-promotions" element={<CreatePromotions />} />
+            <Route path="push-notification" element={<PushNotification />} /> */}
+          </Route>
+        </Routes>
+      </Suspense>
+    </Router>
   );
 }
