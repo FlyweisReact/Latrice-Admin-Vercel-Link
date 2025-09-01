@@ -22,7 +22,7 @@ const SignIn = () => {
       <div className="w-full max-w-[1100px] flex flex-col md:flex-row items-center justify-between relative">
         <div className="w-full md:w-1/2 p-6 md:p-10 z-10">
           <h1 className="text-[32px] md:text-[40px] font-bold text-[#2F2F2F] mb-6 md:mb-8 leading-tight">Welcome Back!!</h1>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form className="space-y-4">
             <div className="mb-4">
               <label className="block text-[#2F2F2F] text-sm md:text-base mb-2">Email</label>
               <input
@@ -59,7 +59,7 @@ const SignIn = () => {
                 Forgot Password?
               </button>
             </div>
-            <button type="submit" className="w-full bg-[#2F2F2F] text-white py-3 rounded-[10px] font-semibold text-sm md:text-base mt-4">
+            <button type="submit" onClick={()=>navigate('/dashboard')} className="w-full bg-[#2F2F2F] text-white py-3 rounded-[10px] font-semibold text-sm md:text-base mt-4">
               Log In
             </button>
           </form>
