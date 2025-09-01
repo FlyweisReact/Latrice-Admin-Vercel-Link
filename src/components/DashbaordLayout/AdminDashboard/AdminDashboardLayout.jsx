@@ -1,15 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FiMenu, FiX, FiSearch, FiSettings, FiBell } from "react-icons/fi";
-import { FaHome, FaStore, FaUserTie, FaUsers, FaEye, FaGavel, FaCog, FaMoneyBillWave, FaCreditCard, FaBullhorn, FaBell, FaSignOutAlt } from "react-icons/fa"; // Using react-icons as placeholders
-// import NotificationOffcanvas from "../../Notification Offcanvas/NotificationOffcanvas"; // Assume this exists
-import { Outlet } from 'react-router-dom';
+import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
+import {
+  FiMenu,
+  FiX,
+  FiSearch,
+  FiSettings,
+  FiBell,
+} from "react-icons/fi";
 
-/**
- * Admin Dashboard Layout Component
- *
- * Updated to match the provided image: black sidebar with yellow accents, simplified header, new sidebar items.
- */
+import {
+  FaHome,
+  FaStore,
+  FaUserTie,
+  FaUsers,
+  FaEye,
+  FaGavel,
+  FaCog,
+  FaMoneyBillWave,
+  FaCreditCard,
+  FaBullhorn,
+  FaBell as FaBellSolid,
+  FaFileAlt,
+  FaComments,
+  FaBlog,
+  FaHeadset,
+  FaFileContract,
+  FaSignOutAlt,
+} from "react-icons/fa";
+
 const AdminDashboardLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -18,7 +36,7 @@ const AdminDashboardLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // New navigation items based on the image
+  // Sidebar items
   const navItems = [
     { name: "Dashboard", icon: <FaHome />, path: "/dashboard" },
     { name: "Salons", icon: <FaStore />, path: "/dashboard/salons" },
@@ -26,29 +44,17 @@ const AdminDashboardLayout = () => {
     { name: "Users", icon: <FaUsers />, path: "/dashboard/users" },
     { name: "Monitor Hiring", icon: <FaEye />, path: "/dashboard/monitor-hiring" },
     { name: "Dispute Resolution", icon: <FaGavel />, path: "/dashboard/dispute-resolution" },
-    { name: "System Management", icon: <FaCog />, path: "/dashboard/system-management" },
+    { name: "Content Management System", icon: <FaCog />, path: "/dashboard/content-management" },
     { name: "Commission and Revenue Management", icon: <FaMoneyBillWave />, path: "/dashboard/commission-revenue" },
     { name: "Payout Management", icon: <FaCreditCard />, path: "/dashboard/payout-management" },
     { name: "Create Promotions", icon: <FaBullhorn />, path: "/dashboard/create-promotions" },
-    { name: "Push Notification", icon: <FaBell />, path: "/dashboard/push-notification" },
+    { name: "Push Notification", icon: <FaBellSolid />, path: "/dashboard/push-notification" },
+    { name: "Reports", icon: <FaFileAlt />, path: "/dashboard/reports" },
+    { name: "Monitor Feedback", icon: <FaComments />, path: "/dashboard/monitor-feedback" },
+    { name: "Upload Blogs", icon: <FaBlog />, path: "/dashboard/upload-blogs" },
+    { name: "Customer Support", icon: <FaHeadset />, path: "/dashboard/customer-support" },
+    { name: "Add Your Policies", icon: <FaFileContract />, path: "/dashboard/add-policies" },
   ];
-
-  // Dynamic title based on path
-  const pathToTitle = {
-    '/dashboard': 'Dashboard',
-    '/dashboard/salons': 'Salons',
-    '/dashboard/independents': 'Independents',
-    '/dashboard/users': 'Users',
-    '/dashboard/monitor-hiring': 'Monitor Hiring',
-    '/dashboard/dispute-resolution': 'Dispute Resolution',
-    '/dashboard/system-management': 'System Management',
-    '/dashboard/commission-revenue': 'Commission and Revenue Management',
-    '/dashboard/payout-management': 'Payout Management',
-    '/dashboard/create-promotions': 'Create Promotions',
-    '/dashboard/push-notification': 'Push Notification',
-  };
-
-  const title = pathToTitle[location.pathname] || 'Dashboard';
 
   // Handle window resize
   useEffect(() => {
@@ -58,35 +64,17 @@ const AdminDashboardLayout = () => {
         setIsMobileMenuOpen(false);
       }
     };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // Close mobile menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (isMobileMenuOpen && windowWidth < 768) {
-        const sidebar = document.getElementById("mobile-sidebar");
-        if (sidebar && !sidebar.contains(event.target)) {
-          if (!event.target.closest("[data-menu-toggle]")) {
-            setIsMobileMenuOpen(false);
-          }
-        }
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isMobileMenuOpen, windowWidth]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const handleLogout = () => {
-    // TODO: Handle logout logic
-    navigate('/');
+    // TODO: Add logout logic
+    navigate("/");
   };
 
   return (
@@ -102,11 +90,14 @@ const AdminDashboardLayout = () => {
       {/* Sidebar */}
       <aside
         id="mobile-sidebar"
-        className={`bg-black text-white w-[230px] sm:w-[260px] fixed h-full z-40 transition-all duration-300 ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0 flex flex-col`}
+        className={`bg-[#2F2F2F] text-white w-[230px] sm:w-[300px] fixed h-full z-40 transition-all duration-300 ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 flex flex-col`}
       >
         <div className="p-4 md:block flex items-center justify-between w-full">
-          <h1 className="text-[40px] font-bold text-[#FFE6D8] font-[Rasa] text-center ">Latrice</h1>
+          <h1 className="text-[40px] font-bold text-[#FFE6D8] font-[Rasa] text-center">
+            Latrice
+          </h1>
           <button
             className="md:hidden text-white focus:outline-none"
             onClick={toggleMobileMenu}
@@ -122,12 +113,18 @@ const AdminDashboardLayout = () => {
               <li key={item.name} className="mb-2 pl-4 pr-1">
                 <Link
                   to={item.path}
-                  className={`flex items-center px-4 py-3 text-sm transition-colors duration-200 rounded-l-full ${location.pathname === item.path ? "bg-yellow-200 text-black" : "hover:bg-gray-800"
-                    }`}
+                  className={`flex items-center px-4 py-3 text-[20px] font-[Rasa] transition-colors duration-200 rounded-[15px] ${
+                    location.pathname === item.path
+                      ? "bg-[#FFEBBA] text-black"
+                      : "hover:bg-gray-800"
+                  }`}
                   onClick={() => windowWidth < 768 && setIsMobileMenuOpen(false)}
                 >
-                  <div className={`w-8 h-8 rounded-full flex justify-center items-center mr-3 ${location.pathname === item.path ? "bg-white" : "bg-yellow-400"
-                    }`}>
+                  <div
+                    className={`w-8 h-8 rounded-full flex justify-center items-center mr-3 ${
+                      location.pathname === item.path ? "bg-white" : "bg-[#FFCC4E]"
+                    }`}
+                  >
                     {item.icon}
                   </div>
                   <span>{item.name}</span>
@@ -140,7 +137,7 @@ const AdminDashboardLayout = () => {
         <div className="w-full px-4 pb-12 mt-2">
           <button
             onClick={handleLogout}
-            className="flex items-center px-4 py-3 text-sm hover:bg-gray-800 rounded-l-full w-full"
+            className="flex items-center px-4 py-3 text-[20px] font-[Rasa] hover:bg-gray-800 rounded-l-full w-full"
           >
             <div className="w-8 h-8 rounded-full bg-yellow-400 flex justify-center items-center mr-3">
               <FaSignOutAlt />
@@ -151,9 +148,9 @@ const AdminDashboardLayout = () => {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 md:ml-[260px] w-full">
+      <div className="flex-1 md:ml-[300px] w-full">
         {/* Header */}
-        <header className="bg-[#1F1F1F] text-white px-4 py-3 flex items-center justify-between shadow-md fixed top-0 right-0 left-0 md:left-[260px] z-30">
+        <header className="bg-[#2F2F2F] text-white px-4 py-3 flex items-center justify-between shadow-md fixed top-0 right-0 left-0 md:left-[300px] z-30">
           {/* Mobile Menu Button */}
           <button
             data-menu-toggle
