@@ -15,9 +15,9 @@ const ResetPassword = lazy(() => import('./pages/AuthPages/ResetPassword'));
 
 // New dashboard pages
 const DashboardHome = lazy(() => import('./pages/Dashboard/DashboardHome'));
-// const Salons = lazy(() => import('./pages/Dashboard/Salons'));
-// const Independents = lazy(() => import('./pages/Dashboard/Independents'));
-// const Users = lazy(() => import('./pages/Dashboard/Users'));
+const Salons = lazy(() => import('./pages/Dashboard/Salons'));
+const Independents = lazy(() => import('./pages/Dashboard/Independents'));
+const Users = lazy(() => import('./pages/Dashboard/Users'));
 // const MonitorHiring = lazy(() => import('./pages/Dashboard/MonitorHiring'));
 // const DisputeResolution = lazy(() => import('./pages/Dashboard/DisputeResolution'));
 // const SystemManagement = lazy(() => import('./pages/Dashboard/SystemManagement'));
@@ -63,10 +63,10 @@ export default function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard/*" element={<AdminDashboardLayout />}>
                   <Route index element={<DashboardHome />} />
-                  {/* <Route path="salons" element={<Salons />} />
+                  <Route path="salons" element={<Salons />} />
                   <Route path="independents" element={<Independents />} />
                   <Route path="users" element={<Users />} />
-                  <Route path="monitor-hiring" element={<MonitorHiring />} />
+                  {/* <Route path="monitor-hiring" element={<MonitorHiring />} />
                   <Route path="dispute-resolution" element={<DisputeResolution />} />
                   <Route path="system-management" element={<SystemManagement />} />
                   <Route path="commission-revenue" element={<CommissionRevenue />} />

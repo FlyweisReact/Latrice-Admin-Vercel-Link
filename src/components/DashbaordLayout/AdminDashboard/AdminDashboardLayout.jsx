@@ -106,7 +106,7 @@ const AdminDashboardLayout = () => {
           } md:translate-x-0 flex flex-col`}
       >
         <div className="p-4 md:block flex items-center justify-between w-full">
-          <h1 className="text-2xl font-bold text-white">Latrice</h1>
+          <h1 className="text-[40px] font-bold text-[#FFE6D8] font-[Rasa] text-center ">Latrice</h1>
           <button
             className="md:hidden text-white focus:outline-none"
             onClick={toggleMobileMenu}
@@ -122,14 +122,12 @@ const AdminDashboardLayout = () => {
               <li key={item.name} className="mb-2 pl-4 pr-1">
                 <Link
                   to={item.path}
-                  className={`flex items-center px-4 py-3 text-sm transition-colors duration-200 rounded-l-full ${
-                    location.pathname === item.path ? "bg-yellow-200 text-black" : "hover:bg-gray-800"
-                  }`}
+                  className={`flex items-center px-4 py-3 text-sm transition-colors duration-200 rounded-l-full ${location.pathname === item.path ? "bg-yellow-200 text-black" : "hover:bg-gray-800"
+                    }`}
                   onClick={() => windowWidth < 768 && setIsMobileMenuOpen(false)}
                 >
-                  <div className={`w-8 h-8 rounded-full flex justify-center items-center mr-3 ${
-                    location.pathname === item.path ? "bg-white" : "bg-yellow-400"
-                  }`}>
+                  <div className={`w-8 h-8 rounded-full flex justify-center items-center mr-3 ${location.pathname === item.path ? "bg-white" : "bg-yellow-400"
+                    }`}>
                     {item.icon}
                   </div>
                   <span>{item.name}</span>
@@ -155,7 +153,8 @@ const AdminDashboardLayout = () => {
       {/* Main Content */}
       <div className="flex-1 md:ml-[260px] w-full">
         {/* Header */}
-        <header className="bg-black text-white p-4 flex items-center justify-between shadow-md fixed top-0 right-0 left-0 md:left-[260px] z-30">
+        <header className="bg-[#1F1F1F] text-white px-4 py-3 flex items-center justify-between shadow-md fixed top-0 right-0 left-0 md:left-[260px] z-30">
+          {/* Mobile Menu Button */}
           <button
             data-menu-toggle
             className="md:hidden mr-2 text-white focus:outline-none"
@@ -164,31 +163,46 @@ const AdminDashboardLayout = () => {
           >
             <FiMenu size={24} />
           </button>
-          <div className="flex-1 flex items-center">
-            <h1 className="text-xl font-bold mr-4">Latrice</h1>
-            <div className="flex-1 relative">
+
+          {/* Search Box */}
+          <div className="flex-1 flex items-center max-w-xl">
+            <div className="flex w-full bg-white rounded-md overflow-hidden">
               <input
                 type="search"
-                placeholder="Search here.."
-                className="w-full px-4 py-2 rounded-full bg-gray-800 text-white focus:outline-none"
+                placeholder="Search here..."
+                className="w-full px-4 py-2 text-black focus:outline-none"
               />
-              <button className="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-full">
-                <FiSearch className="text-black" />
+              <button className="bg-[#FBC02D] px-5 flex items-center justify-center">
+                <FiSearch className="text-black text-lg" />
               </button>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <FiSettings className="cursor-pointer" onClick={() => navigate('/dashboard/settings')} />
-            <FiBell className="cursor-pointer" onClick={() => setShowNotification(true)} />
+
+          {/* Right Side Icons */}
+          <div className="flex items-center space-x-4 ml-6">
+            <button
+              onClick={() => navigate("/dashboard/settings")}
+              className="w-9 h-9 flex items-center justify-center rounded-md bg-white"
+            >
+              <FiSettings className="text-gray-700" />
+            </button>
+            <button
+              onClick={() => setShowNotification(true)}
+              className="w-9 h-9 flex items-center justify-center rounded-md bg-white"
+            >
+              <FiBell className="text-red-500" />
+            </button>
+
+            {/* User Section */}
             <div className="flex items-center">
-              <span className="mr-2">Leo Aminoff</span>
-              <img src="/path/to/avatar.jpg" alt="Avatar" className="w-8 h-8 rounded-full" /> {/* Replace with actual */}
+              <span className="mr-3 font-medium">Leo Aminoff</span>
+              <img
+                src="/path/to/avatar.jpg"
+                alt="Avatar"
+                className="w-9 h-9 rounded-full object-cover"
+              />
             </div>
           </div>
-          {/* <NotificationOffcanvas
-            showNotification={showNotification}
-            setShowNotification={setShowNotification}
-          /> */}
         </header>
 
         {/* Main Content Area */}
