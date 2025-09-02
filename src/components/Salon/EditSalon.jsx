@@ -1,150 +1,285 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Save, ArrowLeft } from 'lucide-react';
+import React from "react";
+import { FaArrowLeft, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import { Switch } from "@headlessui/react";
+import { FaCar, FaWifi, FaCreditCard, FaChild, FaWheelchair } from "react-icons/fa";
+
+
+const Toggle = ({ enabled, setEnabled }) => (
+    <Switch
+        checked={enabled}
+        onChange={setEnabled}
+        className={`${enabled ? "bg-[#123E41]" : "bg-gray-300"
+            } relative inline-flex h-6 w-11 items-center rounded-full transition`}
+    >
+        <span
+            className={`${enabled ? "translate-x-6" : "translate-x-1"
+                } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+        />
+    </Switch>
+);
 
 const EditSalon = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  
-  const [salon, setSalon] = useState({
-    fullName: '',
-    shopName: '',
-    joinedOn: '',
-    status: 'Active',
-    blocked: false
-  });
+    const [mobileService, setMobileService] = React.useState(true);
+    const [customStyle, setCustomStyle] = React.useState(true);
+    const [amenities, setAmenities] = React.useState({
+        parking: true,
+        wifi: true,
+        creditCards: true,
+        childFriendly: true,
+        accessible: true,
+    });
 
-  // Simulated data fetch
-  useEffect(() => {
-    // In a real app, fetch salon data by ID from an API
-    const salonsData = [
-      {
-        id: 1,
-        fullName: 'Alyvia Kelley',
-        shopName: 'Sexy Braids',
-        joinedOn: '06/06/2023',
-        status: 'Active',
-        blocked: false
-      },
-      // ... other salon data
-    ];
-    const foundSalon = salonsData.find(s => s.id === parseInt(id)) || salonsData[0];
-    setSalon(foundSalon);
-  }, [id]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setSalon(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // In a real app, save changes to API
-    console.log('Saving salon:', salon);
-    navigate('/dashboard/salons');
-  };
-
-  return (
-    <div className="w-full bg-white min-h-screen p-6">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl lg:text-3xl font-[Rasa] font-semibold text-gray-900">
-            Edit Salon
-          </h1>
-          <button
-            onClick={() => navigate('/dashboard/salons')}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-800"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            Back
-          </button>
-        </div>
-
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-[Rasa] font-medium text-gray-700">
-                Full Name
-              </label>
-              <input
-                type="text"
-                name="fullName"
-                value={salon.fullName}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
+    return (
+        <div className="font-[Rasa]  min-h-screen p-2">
+            {/* Header */}
+            <div className="flex items-center space-x-2 text-2xl font-bold mb-4">
+                <FaArrowLeft />
+                <h1>Edit Salon</h1>
             </div>
-            <div>
-              <label className="block text-sm font-[Rasa] font-medium text-gray-700">
-                Shop Name
-              </label>
-              <input
-                type="text"
-                name="shopName"
-                value={salon.shopName}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-[Rasa] font-medium text-gray-700">
-                Joined On
-              </label>
-              <input
-                type="text"
-                name="joinedOn"
-                value={salon.joinedOn}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-[Rasa] font-medium text-gray-700">
-                Status
-              </label>
-              <select
-                name="status"
-                value={salon.status}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-                <option value="Blocked">Blocked</option>
-              </select>
-            </div>
-            <div className="flex items-center gap-3">
-              <label className="block text-sm font-[Rasa] font-medium text-gray-700">
-                Blocked
-              </label>
-              <button
-                onClick={() => setSalon(prev => ({ ...prev, blocked: !prev.blocked }))}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                  salon.blocked ? 'bg-red-500' : 'bg-green-500'
-                }`}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    salon.blocked ? 'translate-x-6' : 'translate-x-1'
-                  }`}
+
+            {/* Cover + Profile */}
+            <div className="relative rounded-2xl overflow-hidden mb-6">
+                <img
+                    src="https://via.placeholder.com/800x200"
+                    alt="cover"
+                    className="w-full h-40 object-cover"
                 />
-              </button>
+                <div className="absolute -bottom-8 left-6 flex items-center">
+                    <div className="relative">
+                        <img
+                            src="https://via.placeholder.com/80"
+                            alt="profile"
+                            className="w-20 h-20 rounded-full border-4 border-white"
+                        />
+                        <button className="absolute bottom-1 right-1 bg-yellow-400 p-1 rounded-full">
+                            <FaEdit className="text-white text-xs" />
+                        </button>
+                    </div>
+                </div>
             </div>
-          </div>
 
-          <div className="mt-8 flex justify-end">
-            <button
-              onClick={handleSubmit}
-              className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              <Save className="w-4 h-4" />
-              Save Changes
-            </button>
-          </div>
+            {/* Business Details */}
+            <div className="bg-white rounded-xl shadow p-6 mb-6">
+                <h2 className="text-xl font-semibold mb-4">Business Details</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input className="border p-2 rounded" placeholder="Name of your business" />
+                    <input className="border p-2 rounded" placeholder="Location" />
+                    <input className="border p-2 rounded" placeholder="Email Address" />
+                    <input className="border p-2 rounded" placeholder="Phone Number" />
+                    <input className="border p-2 rounded" placeholder="Service Radius (miles)" />
+                    <input className="border p-2 rounded" placeholder="Country" />
+                </div>
+                <div className="flex justify-between mt-4">
+                    <div className="flex items-center space-x-2">
+                        <span>Is this a mobile salon service?</span>
+                        <Toggle enabled={mobileService} setEnabled={setMobileService} />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <span>Do you accept custom style requests?</span>
+                        <Toggle enabled={customStyle} setEnabled={setCustomStyle} />
+                    </div>
+                </div>
+            </div>
+
+            {/* Amenities */}
+            <div className="bg-white rounded-xl shadow p-6 mb-6 font-[Rasa]">
+                <h2 className="text-xl font-semibold mb-4">Amenities</h2>
+                <div className="flex flex-wrap gap-x-10 gap-y-6">
+                    {/* Parking */}
+                    <div className="flex items-center space-x-2">
+                        <FaCar className="text-2xl" />
+                        <span className="text-base">Parking Space</span>
+                        <Toggle
+                            enabled={amenities.parking}
+                            setEnabled={(val) => setAmenities((prev) => ({ ...prev, parking: val }))}
+                        />
+                    </div>
+                    {/* Wi-Fi */}
+                    <div className="flex items-center space-x-2">
+                        <FaWifi className="text-2xl" />
+                        <span className="text-base">Wi-Fi</span>
+                        <Toggle
+                            enabled={amenities.wifi}
+                            setEnabled={(val) => setAmenities((prev) => ({ ...prev, wifi: val }))}
+                        />
+                    </div>
+                    {/* Credit Cards */}
+                    <div className="flex items-center space-x-2">
+                        <FaCreditCard className="text-2xl" />
+                        <span className="text-base">Credit Cards Accepted</span>
+                        <Toggle
+                            enabled={amenities.cards}
+                            setEnabled={(val) => setAmenities((prev) => ({ ...prev, cards: val }))}
+                        />
+                    </div>
+                    {/* Child Friendly */}
+                    <div className="flex items-center space-x-2">
+                        <FaChild className="text-2xl" />
+                        <span className="text-base">Child-Friendly</span>
+                        <Toggle
+                            enabled={amenities.child}
+                            setEnabled={(val) => setAmenities((prev) => ({ ...prev, child: val }))}
+                        />
+                    </div>
+                    {/* Accessible */}
+                    <div className="flex items-center space-x-2">
+                        <FaWheelchair className="text-2xl" />
+                        <span className="text-base">Accessible For People With Disabilities</span>
+                        <Toggle
+                            enabled={amenities.accessible}
+                            setEnabled={(val) => setAmenities((prev) => ({ ...prev, accessible: val }))}
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* Services */}
+            <div className="bg-white rounded-xl shadow p-6 mb-6 font-[Rasa]">
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl font-semibold">Services</h2>
+                    <button className="border px-4 py-2 rounded-lg flex items-center space-x-2 text-sm hover:bg-gray-100 transition">
+                        <FaPlus /> <span>Add A New Service</span>
+                    </button>
+                </div>
+                <div className="divide-y border rounded-lg">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="flex justify-between items-center p-4 text-sm">
+                            <div className="flex flex-col">
+                                <p className="font-bold uppercase">BOX BRAIDS</p>
+                                <div className="flex flex-wrap gap-x-4 text-gray-700 mt-1">
+                                    <span>Small, Butt-Length</span>
+                                    <span>💲100.00</span>
+                                    <span>⏳ 1 hr 30 mins</span>
+                                </div>
+                                <p className="text-gray-500 mt-1">Lorem Ipsum is simply dummy text</p>
+                            </div>
+                            <div className="flex space-x-4 text-sm">
+                                <button className="flex items-center space-x-1 text-gray-700 hover:text-black">
+                                    <FaEdit /> <span>Edit</span>
+                                </button>
+                                <button className="flex items-center space-x-1 text-red-500 hover:text-red-700">
+                                    <FaTrash /> <span>Delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            {/* Portfolio Images */}
+            <div className="bg-white rounded-xl shadow p-6 mb-6">
+                <h2 className="text-xl font-semibold mb-4">Portfolio Images</h2>
+                <div className="flex space-x-4">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="relative">
+                            <img
+                                src="https://via.placeholder.com/100"
+                                alt="portfolio"
+                                className="w-24 h-24 rounded-lg object-cover"
+                            />
+                            <button className="absolute top-1 right-1 bg-black bg-opacity-60 text-white p-1 rounded">
+                                <FaEdit className="text-xs" />
+                            </button>
+                        </div>
+                    ))}
+                    {[1, 2].map((i) => (
+                        <div
+                            key={i}
+                            className="w-24 h-24 flex items-center justify-center border-2 border-dashed rounded-lg text-gray-400"
+                        >
+                            <FaPlus /> Add New Photo
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Staffs */}
+            <div className="bg-white rounded-xl shadow p-6 mb-6">
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl font-semibold">Staffs</h2>
+                    <button className="border px-4 py-2 rounded-lg flex items-center space-x-2">
+                        <FaPlus /> <span>Add A New Staff</span>
+                    </button>
+                </div>
+                <div className="space-y-4">
+                    {[1, 2].map((i) => (
+                        <div key={i} className="flex justify-between items-center border p-4 rounded-lg">
+                            <div className="flex items-center space-x-3">
+                                <img
+                                    src="https://via.placeholder.com/50"
+                                    alt="staff"
+                                    className="w-12 h-12 rounded-full"
+                                />
+                                <div>
+                                    <p className="font-semibold">Jordyn Mango</p>
+                                    <p className="text-sm text-gray-500">
+                                        Hair Service • +1 778 6931 369 • email@example.com
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex space-x-4">
+                                <button className="text-blue-500 flex items-center space-x-1">
+                                    <FaEdit /> <span>Edit</span>
+                                </button>
+                                <button className="text-red-500 flex items-center space-x-1">
+                                    <FaTrash /> <span>Delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Business Information */}
+            <div className="bg-white rounded-xl shadow p-6 mb-6">
+                <h2 className="text-xl font-semibold mb-4">Business Information</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input className="border p-2 rounded" placeholder="Employer Identification Number (EIN)" />
+                    <input className="border p-2 rounded" placeholder="Field labeled EIN" />
+                    <input className="border p-2 rounded" placeholder="Doing Business As (DBA) Name" />
+                    <input className="border p-2 rounded" placeholder="Field labeled DBA" />
+                </div>
+            </div>
+
+            {/* Taxpayer Identification */}
+            <div className="bg-white rounded-xl shadow p-6 mb-6">
+                <h2 className="text-xl font-semibold mb-4">Taxpayer Identification</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input className="border p-2 rounded" placeholder="Social Security Number (SSN) / ITIN" />
+                    <input className="border p-2 rounded" placeholder="Field labeled SSN or ITIN" />
+                </div>
+            </div>
+
+            {/* Licence & Verification Documents */}
+            <div className="bg-white rounded-xl shadow p-6 mb-6">
+                <h2 className="text-xl font-semibold mb-4">Licence & Verification Documents</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {[
+                        "Business License",
+                        "Cosmetology License",
+                        "Proof of Insurance",
+                        "Driver’s License",
+                        "Health & Safety Permits",
+                        "Passport",
+                    ].map((doc) => (
+                        <div key={doc} className="flex items-center justify-between border p-3 rounded-lg">
+                            <div className="flex items-center space-x-3">
+                                <span className="bg-yellow-200 p-2 rounded-lg">📄</span>
+                                <span>{doc}</span>
+                            </div>
+                            <button className="bg-gray-300 px-4 py-2 rounded">Upload New Document</button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Save Button */}
+            <div className="flex justify-center">
+                <button className="bg-black text-yellow-400 px-10 py-3 rounded-lg font-semibold">
+                    Save
+                </button>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default EditSalon;
