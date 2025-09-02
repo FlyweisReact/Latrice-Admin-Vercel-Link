@@ -26,6 +26,7 @@ import {
   FaFileContract,
   FaSignOutAlt,
 } from "react-icons/fa";
+import NotificationOffcanvas from "../../NotificationOffcanvas";
 
 const AdminDashboardLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -189,6 +190,10 @@ const AdminDashboardLayout = () => {
             >
               <FiBell className="text-red-500" />
             </button>
+            <NotificationOffcanvas
+                        showNotification={showNotification}
+                        setShowNotification={setShowNotification}
+                      />
 
             <div className="flex items-center">
               <span className="mr-3 font-medium">Leo Aminoff</span>
