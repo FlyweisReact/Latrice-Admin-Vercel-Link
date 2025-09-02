@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Edit, Eye, Trash2, Download, ChevronDown, Plus } from 'lucide-react';
+import { Edit, Eye, Trash2, Download, ChevronDown, Plus ,Wallet} from 'lucide-react';
 
 const Salons = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -295,7 +295,7 @@ const Salons = () => {
                       onClick={() => navigate(`/dashboard/salons/wallet/${salon.id}`)}
                       className="p-2 text-gray-400 hover:text-purple-600 transition-colors rounded-lg hover:bg-purple-50"
                     >
-                      <Download className="w-4 h-4" />
+                      <Wallet className="w-4 h-4" />
                     </button>
                   </div>
                 </td>
