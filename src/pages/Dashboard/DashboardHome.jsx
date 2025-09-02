@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 const DashboardHome = () => {
   const navigate = useNavigate();
   const [professionalsFilter, setProfessionalsFilter] = useState('All');
+  // Modal state
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null); // store what user is deleting
 
   // Sample data for New Professionals
   const newProfessionals = [
@@ -26,35 +29,52 @@ const DashboardHome = () => {
 
   // Sample data for Recent Disputes
   const recentDisputes = [
-    { 
-      id: 1, 
-      shopName: 'Sexy Braids', 
-      userName: 'Marilyn Kenter', 
+    {
+      id: 1,
+      shopName: 'Sexy Braids',
+      userName: 'Marilyn Kenter',
       description: 'Lorem ipsum is simply dummy text of the...',
-      photos: ['https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop', 
-               'https://images.pexels.com/photos/3992656/pexels-photo-3992656.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop',
-               'https://images.pexels.com/photos/3993212/pexels-photo-3993212.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop']
+      photos: ['https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop',
+        'https://images.pexels.com/photos/3992656/pexels-photo-3992656.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop',
+        'https://images.pexels.com/photos/3993212/pexels-photo-3993212.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop']
     },
-    { 
-      id: 2, 
-      shopName: 'Az Salon', 
-      userName: 'Brandon Korsgaard', 
+    {
+      id: 2,
+      shopName: 'Az Salon',
+      userName: 'Brandon Korsgaard',
       description: 'Lorem ipsum is simply dummy text of the...',
-      photos: ['https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop', 
-               'https://images.pexels.com/photos/3992656/pexels-photo-3992656.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop',
-               'https://images.pexels.com/photos/3993212/pexels-photo-3993212.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop']
+      photos: ['https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop',
+        'https://images.pexels.com/photos/3992656/pexels-photo-3992656.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop',
+        'https://images.pexels.com/photos/3993212/pexels-photo-3993212.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop']
     },
-    { 
-      id: 3, 
-      shopName: 'Sexy Braids', 
-      userName: 'Marilyn Kenter', 
+    {
+      id: 3,
+      shopName: 'Sexy Braids',
+      userName: 'Marilyn Kenter',
       description: 'Lorem ipsum is simply dummy text of the...',
-      photos: ['https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop', 
-               'https://images.pexels.com/photos/3992656/pexels-photo-3992656.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop',
-               'https://images.pexels.com/photos/3993212/pexels-photo-3993212.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop']
+      photos: ['https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop',
+        'https://images.pexels.com/photos/3992656/pexels-photo-3992656.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop',
+        'https://images.pexels.com/photos/3993212/pexels-photo-3993212.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop']
     }
   ];
 
+   // Handle Delete
+  const handleDeleteClick = (item) => {
+    setDeleteTarget(item);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDelete = () => {
+    console.log("Deleting: ", deleteTarget);
+    // Perform delete logic here
+    setIsDeleteModalOpen(false);
+    setDeleteTarget(null);
+  };
+
+  const cancelDelete = () => {
+    setIsDeleteModalOpen(false);
+    setDeleteTarget(null);
+  };
   return (
     <div className="w-full  min-h-screen p-4 lg:p-6">
       {/* Welcome Header */}
@@ -107,7 +127,7 @@ const DashboardHome = () => {
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
             <h2 className="text-lg font-[Rasa] font-semibold text-gray-900">New Professionals</h2>
             <div className="relative">
-              <select 
+              <select
                 value={professionalsFilter}
                 onChange={(e) => setProfessionalsFilter(e.target.value)}
                 className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-8 text-sm font-[Rasa] text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -119,7 +139,7 @@ const DashboardHome = () => {
               <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
             </div>
           </div>
-          
+
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -155,7 +175,8 @@ const DashboardHome = () => {
                         <button className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors rounded hover:bg-blue-50" onClick={() => navigate(`/dashboard/salons`)}>
                           <Eye className="w-4 h-4" />
                         </button>
-                        <button className="p-1.5 text-gray-400 hover:text-red-600 transition-colors rounded hover:bg-red-50">
+                        <button className="p-1.5 text-gray-400 hover:text-red-600 transition-colors rounded hover:bg-red-50"
+                          onClick={() => handleDeleteClick(professional)}>
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -172,7 +193,7 @@ const DashboardHome = () => {
           <div className="p-4 border-b border-gray-200">
             <h2 className="text-lg font-[Rasa] font-semibold text-gray-900">New Users</h2>
           </div>
-          
+
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -206,10 +227,11 @@ const DashboardHome = () => {
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <button className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors rounded hover:bg-blue-50"
-                        onClick={() => navigate(`/dashboard/users`)}>
+                          onClick={() => navigate(`/dashboard/users`)}>
                           <Eye className="w-4 h-4" />
                         </button>
-                        <button className="p-1.5 text-gray-400 hover:text-red-600 transition-colors rounded hover:bg-red-50">
+                        <button className="p-1.5 text-gray-400 hover:text-red-600 transition-colors rounded hover:bg-red-50"
+                          onClick={() => handleDeleteClick(user)}>
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -227,7 +249,7 @@ const DashboardHome = () => {
         <div className="p-4 border-b border-gray-200">
           <h2 className="text-lg font-[Rasa] font-semibold text-gray-900">Recent Disputes</h2>
         </div>
-        
+
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -282,10 +304,12 @@ const DashboardHome = () => {
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <button className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors rounded hover:bg-blue-50"
-                       onClick={() => navigate(`/dashboard/dispute-resolution`)}>
+                        onClick={() => navigate(`/dashboard/dispute-resolution`)}>
                         <Eye className="w-4 h-4" />
                       </button>
-                      <button className="p-1.5 text-gray-400 hover:text-red-600 transition-colors rounded hover:bg-red-50">
+                      <button className="p-1.5 text-gray-400 hover:text-red-600 transition-colors rounded hover:bg-red-50"
+                        onClick={() => handleDeleteClick(dispute)}
+                      >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -296,6 +320,31 @@ const DashboardHome = () => {
           </table>
         </div>
       </div>
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/30 bg-opacity-40 z-50">
+          <div className="bg-white rounded-lg shadow-lg w-[320px] p-6 text-center">
+            <h2 className="text-lg font-[Rasa] font-semibold text-gray-900 mb-4">
+              Are you sure?
+            </h2>
+            <div className="flex justify-center gap-3">
+              <button
+                onClick={cancelDelete}
+                className="px-5 py-2 rounded-full bg-gray-400 text-white font-[Rasa] font-medium"
+              >
+                No, Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-5 py-2 rounded-full bg-red-500 text-white font-[Rasa] font-medium"
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
