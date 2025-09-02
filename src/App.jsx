@@ -2,7 +2,6 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ScrollToTop } from "./utils/utils";
 import AdminDashboardLayout from "./components/DashbaordLayout/AdminDashboard/AdminDashboardLayout";
-import WalletView from "./components/Salon/WalletView";
 
 
 // Auth pages
@@ -34,8 +33,7 @@ const AddPolicies = lazy(() => import("./pages/Dashboard/AddPolicies"));
 const AddSalon = lazy(() => import("./components/Salon/AddSalon"));
 const EditSalon = lazy(() => import("./components/Salon/EditSalon"));
 const ViewSalon = lazy(() => import("./components/Salon/ViewSalon"));
-// const DeleteSalon = lazy(() => import("./pages/Dashboard/DeleteSalon"));
-// const WalletView = lazy(() => import("./pages/Dashboard/WalletView"));
+const WalletView = lazy(() => import("./components/Salon/WalletView"));
 
 const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-screen bg-white">
