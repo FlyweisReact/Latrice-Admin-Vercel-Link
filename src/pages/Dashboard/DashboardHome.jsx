@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Eye, Trash2, ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const DashboardHome = () => {
+  const navigate = useNavigate();
   const [professionalsFilter, setProfessionalsFilter] = useState('All');
 
   // Sample data for New Professionals
@@ -150,7 +152,7 @@ const DashboardHome = () => {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <button className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors rounded hover:bg-blue-50">
+                        <button className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors rounded hover:bg-blue-50" onClick={() => navigate(`/dashboard/salons`)}>
                           <Eye className="w-4 h-4" />
                         </button>
                         <button className="p-1.5 text-gray-400 hover:text-red-600 transition-colors rounded hover:bg-red-50">
@@ -203,7 +205,8 @@ const DashboardHome = () => {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <button className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors rounded hover:bg-blue-50">
+                        <button className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors rounded hover:bg-blue-50"
+                        onClick={() => navigate(`/dashboard/users`)}>
                           <Eye className="w-4 h-4" />
                         </button>
                         <button className="p-1.5 text-gray-400 hover:text-red-600 transition-colors rounded hover:bg-red-50">
@@ -278,7 +281,8 @@ const DashboardHome = () => {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      <button className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors rounded hover:bg-blue-50">
+                      <button className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors rounded hover:bg-blue-50"
+                       onClick={() => navigate(`/dashboard/dispute-resolution`)}>
                         <Eye className="w-4 h-4" />
                       </button>
                       <button className="p-1.5 text-gray-400 hover:text-red-600 transition-colors rounded hover:bg-red-50">
