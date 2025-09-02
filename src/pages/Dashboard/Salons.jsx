@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Edit, Eye, Trash2, Download, ChevronDown, Plus } from 'lucide-react';
 
 const Salons = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortBy, setSortBy] = useState('name');
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [selectedSalonId, setSelectedSalonId] = useState(null);
+
+  const navigate = useNavigate();
 
   const salonsData = [
     {
@@ -145,8 +150,23 @@ const Salons = () => {
   const currentData = salonsData.slice(startIndex, endIndex);
 
   const handleToggleBlock = (id) => {
-    // Toggle block functionality would go here
     console.log('Toggle block for salon:', id);
+  };
+
+  const handleDeleteClick = (id) => {
+    setSelectedSalonId(id);
+    setShowDeletePopup(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    console.log('Deleting salon:', selectedSalonId);
+    setShowDeletePopup(false);
+    setSelectedSalonId(null);
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeletePopup(false);
+    setSelectedSalonId(null);
   };
 
   return (
@@ -158,7 +178,6 @@ const Salons = () => {
         </h1>
         
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          {/* Sort Dropdown */}
           <div className="relative">
             <select 
               value={sortBy}
@@ -173,7 +192,6 @@ const Salons = () => {
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
           </div>
 
-          {/* Add New Salon Button */}
           <button className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-[Rasa] font-medium hover:bg-gray-50 transition-colors flex items-center gap-2 whitespace-nowrap">
             <Plus className="w-4 h-4" />
             Add A New Salon
@@ -181,10 +199,8 @@ const Salons = () => {
         </div>
       </div>
 
-      {/* Table Container */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          {/* Table Header */}
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
               <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider w-16">
@@ -211,31 +227,21 @@ const Salons = () => {
             </tr>
           </thead>
 
-          {/* Table Body */}
           <tbody className="bg-white divide-y divide-gray-200">
             {currentData.map((salon, index) => (
               <tr key={salon.id} className="hover:bg-gray-50 transition-colors">
-                {/* Row Number */}
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-900">
                   {startIndex + index + 1}
                 </td>
-
-                {/* Full Name */}
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-900">
                   {salon.fullName}
                 </td>
-
-                {/* Shop Name */}
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-900">
                   {salon.shopName}
                 </td>
-
-                {/* Joined On */}
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-600">
                   {salon.joinedOn}
                 </td>
-
-                {/* Status */}
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full ${getStatusDot(salon.status)}`}></div>
@@ -244,8 +250,6 @@ const Salons = () => {
                     </span>
                   </div>
                 </td>
-
-                {/* Block/Unblock Toggle */}
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-[Rasa] text-gray-700">
@@ -265,20 +269,30 @@ const Salons = () => {
                     </button>
                   </div>
                 </td>
-
-                {/* Actions */}
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-2">
-                    <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50">
+                    <button 
+                      onClick={() => navigate(`/dashboard/salons/edit/${salon.id}`)}
+                      className="p-2 text-gray-400 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50"
+                    >
                       <Edit className="w-4 h-4" />
                     </button>
-                    <button className="p-2 text-gray-400 hover:text-green-600 transition-colors rounded-lg hover:bg-green-50">
+                    <button 
+                      onClick={() => navigate(`/dashboard/salons/view/${salon.id}`)}
+                      className="p-2 text-gray-400 hover:text-green-600 transition-colors rounded-lg hover:bg-green-50"
+                    >
                       <Eye className="w-4 h-4" />
                     </button>
-                    <button className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50">
+                    <button 
+                      onClick={() => handleDeleteClick(salon.id)}
+                      className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50"
+                    >
                       <Trash2 className="w-4 h-4" />
                     </button>
-                    <button className="p-2 text-gray-400 hover:text-purple-600 transition-colors rounded-lg hover:bg-purple-50">
+                    <button 
+                      onClick={() => navigate(`/dashboard/salons/wallet/${salon.id}`)}
+                      className="p-2 text-gray-400 hover:text-purple-600 transition-colors rounded-lg hover:bg-purple-50"
+                    >
                       <Download className="w-4 h-4" />
                     </button>
                   </div>
@@ -289,7 +303,6 @@ const Salons = () => {
         </table>
       </div>
 
-      {/* Pagination */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t border-gray-200 bg-gray-50">
         <div className="flex items-center gap-2">
           <select
@@ -306,7 +319,6 @@ const Salons = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          {/* Previous Button */}
           <button
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
@@ -315,7 +327,6 @@ const Salons = () => {
             ‹
           </button>
 
-          {/* Page Numbers */}
           {[...Array(Math.min(5, totalPages))].map((_, index) => {
             const pageNumber = index + 1;
             const isActive = pageNumber === currentPage;
@@ -351,7 +362,6 @@ const Salons = () => {
             </>
           )}
 
-          {/* Next Button */}
           <button
             onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
             disabled={currentPage === totalPages}
@@ -361,6 +371,34 @@ const Salons = () => {
           </button>
         </div>
       </div>
+
+      {showDeletePopup && (
+        <div className="fixed inset-0  bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-[300px] text-center">
+            <h2 className="text-xl font-[Rasa] font-medium text-gray-900 mb-4">Are you sure?</h2>
+            <div className="flex justify-around">
+              <button
+                onClick={handleDeleteCancel}
+                className="px-4 py-2 bg-gray-400 text-white rounded-full hover:bg-gray-500 transition-colors"
+              >
+                No, Cancel
+              </button>
+              <button
+                onClick={handleDeleteConfirm}
+                className="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+              >
+                Yes, Delete
+              </button>
+            </div>
+            {selectedSalonId && (
+              <p className="text-sm text-gray-600 mt-4">
+                {salonsData.find(s => s.id === selectedSalonId)?.shopName} -{' '}
+                {salonsData.find(s => s.id === selectedSalonId)?.joinedOn}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

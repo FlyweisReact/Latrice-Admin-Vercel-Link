@@ -2,6 +2,8 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ScrollToTop } from "./utils/utils";
 import AdminDashboardLayout from "./components/DashbaordLayout/AdminDashboard/AdminDashboardLayout";
+import WalletView from "./components/Salon/WalletView";
+
 
 // Auth pages
 const SignIn = lazy(() => import("./pages/AuthPages/Login"));
@@ -27,6 +29,12 @@ const MonitorFeedback = lazy(() => import("./pages/Dashboard/MonitorFeedback"));
 const UploadBlogs = lazy(() => import("./pages/Dashboard/UploadBlogs"));
 const CustomerSupport = lazy(() => import("./pages/Dashboard/CustomerSupport"));
 const AddPolicies = lazy(() => import("./pages/Dashboard/AddPolicies"));
+
+// New Salon Action Pages
+const EditSalon = lazy(() => import("./components/Salon/EditSalon"));
+const ViewSalon = lazy(() => import("./components/Salon/ViewSalon"));
+// const DeleteSalon = lazy(() => import("./pages/Dashboard/DeleteSalon"));
+// const WalletView = lazy(() => import("./pages/Dashboard/WalletView"));
 
 const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-screen bg-white">
@@ -54,6 +62,11 @@ export default function App() {
           <Route path="/dashboard/*" element={<AdminDashboardLayout />}>
             <Route index element={<DashboardHome />} />
             <Route path="salons" element={<Salons />} />
+            <Route path="salons/edit/:id" element={<EditSalon />} />
+            <Route path="salons/view/:id" element={<ViewSalon />} />
+            <Route path="salons/wallet/:id" element={<WalletView />} />
+
+
             <Route path="independents" element={<Independents />} />
             <Route path="users" element={<Users />} />
             <Route path="monitor-hiring" element={<MonitorHiring />} />

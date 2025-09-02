@@ -7,7 +7,6 @@ import {
   FiSettings,
   FiBell,
 } from "react-icons/fi";
-
 import {
   FaHome,
   FaStore,
@@ -73,9 +72,11 @@ const AdminDashboardLayout = () => {
   };
 
   const handleLogout = () => {
-    // TODO: Add logout logic
     navigate("/");
   };
+
+  // Check if the current route is under /dashboard/salons or its subroutes
+  const isSalonsActive = location.pathname.startsWith("/dashboard/salons");
 
   return (
     <div className="flex h-screen bg-white relative overflow-x-hidden">
@@ -114,7 +115,7 @@ const AdminDashboardLayout = () => {
                 <Link
                   to={item.path}
                   className={`flex items-center px-4 py-3 text-[20px] font-[Rasa] transition-colors duration-200 rounded-[15px] ${
-                    location.pathname === item.path
+                    (location.pathname === item.path || (item.name === "Salons" && isSalonsActive))
                       ? "bg-[#FFEBBA] text-black"
                       : "hover:bg-gray-800"
                   }`}
@@ -122,7 +123,9 @@ const AdminDashboardLayout = () => {
                 >
                   <div
                     className={`w-8 h-8 rounded-full flex justify-center items-center mr-3 ${
-                      location.pathname === item.path ? "bg-white" : "bg-[#FFCC4E]"
+                      (location.pathname === item.path || (item.name === "Salons" && isSalonsActive))
+                        ? "bg-white"
+                        : "bg-[#FFCC4E]"
                     }`}
                   >
                     {item.icon}
@@ -151,7 +154,6 @@ const AdminDashboardLayout = () => {
       <div className="flex-1 md:ml-[300px] w-full">
         {/* Header */}
         <header className="bg-[#2F2F2F] text-white px-4 py-3 flex items-center justify-between shadow-md fixed top-0 right-0 left-0 md:left-[300px] z-30">
-          {/* Mobile Menu Button */}
           <button
             data-menu-toggle
             className="md:hidden mr-2 text-white focus:outline-none"
@@ -161,7 +163,6 @@ const AdminDashboardLayout = () => {
             <FiMenu size={24} />
           </button>
 
-          {/* Search Box */}
           <div className="flex-1 flex items-center max-w-xl">
             <div className="flex w-full bg-white rounded-md overflow-hidden">
               <input
@@ -175,7 +176,6 @@ const AdminDashboardLayout = () => {
             </div>
           </div>
 
-          {/* Right Side Icons */}
           <div className="flex items-center space-x-4 ml-6">
             <button
               onClick={() => navigate("/dashboard/settings")}
@@ -190,7 +190,6 @@ const AdminDashboardLayout = () => {
               <FiBell className="text-red-500" />
             </button>
 
-            {/* User Section */}
             <div className="flex items-center">
               <span className="mr-3 font-medium">Leo Aminoff</span>
               <img
@@ -202,7 +201,6 @@ const AdminDashboardLayout = () => {
           </div>
         </header>
 
-        {/* Main Content Area */}
         <main className="p-4 pt-20 md:pt-24 w-full overflow-x-hidden">
           <Outlet />
         </main>
