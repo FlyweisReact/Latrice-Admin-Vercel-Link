@@ -35,6 +35,8 @@ const EditSalon = lazy(() => import("./components/Salon/EditSalon"));
 const ViewSalon = lazy(() => import("./components/Salon/ViewSalon"));
 const WalletView = lazy(() => import("./components/Salon/WalletView"));
 
+const Settings = lazy(() => import("./pages/Dashboard/Settings"));
+
 const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-screen bg-white">
     <div className="text-center">
@@ -80,6 +82,9 @@ export default function App() {
             <Route path="upload-blogs" element={<UploadBlogs />} />
             <Route path="customer-support" element={<CustomerSupport />} />
             <Route path="add-policies" element={<AddPolicies />} />
+
+            <Route path="settings" element={<Settings />} />
+
           </Route>
         </Routes>
       </Suspense>
