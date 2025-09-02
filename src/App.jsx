@@ -31,6 +31,7 @@ const CustomerSupport = lazy(() => import("./pages/Dashboard/CustomerSupport"));
 const AddPolicies = lazy(() => import("./pages/Dashboard/AddPolicies"));
 
 // New Salon Action Pages
+const AddSalon = lazy(() => import("./components/Salon/AddSalon"));
 const EditSalon = lazy(() => import("./components/Salon/EditSalon"));
 const ViewSalon = lazy(() => import("./components/Salon/ViewSalon"));
 // const DeleteSalon = lazy(() => import("./pages/Dashboard/DeleteSalon"));
@@ -65,7 +66,7 @@ export default function App() {
             <Route path="salons/edit/:id" element={<EditSalon />} />
             <Route path="salons/view/:id" element={<ViewSalon />} />
             <Route path="salons/wallet/:id" element={<WalletView />} />
-
+            <Route path="salons/add" element={<AddSalon />} />
 
             <Route path="independents" element={<Independents />} />
             <Route path="users" element={<Users />} />

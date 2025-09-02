@@ -192,7 +192,9 @@ const Salons = () => {
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
           </div>
 
-          <button className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-[Rasa] font-medium hover:bg-gray-50 transition-colors flex items-center gap-2 whitespace-nowrap">
+          <button className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-[Rasa] font-medium hover:bg-gray-50 transition-colors flex items-center gap-2 whitespace-nowrap"
+                                onClick={() => navigate(`/dashboard/salons/add`)}
+>
             <Plus className="w-4 h-4" />
             Add A New Salon
           </button>
