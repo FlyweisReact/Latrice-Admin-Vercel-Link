@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Edit, Eye, Trash2, Download, ChevronDown, Plus ,Wallet} from 'lucide-react';
+import { Edit, Eye, Trash2, Download, ChevronDown, Plus, Wallet } from 'lucide-react';
 
 const Salons = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -8,17 +8,15 @@ const Salons = () => {
   const [sortBy, setSortBy] = useState('name');
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [selectedSalonId, setSelectedSalonId] = useState(null);
-
-  const navigate = useNavigate();
-
-  const salonsData = [
+  // Manage salonsData as state
+  const [salonsData, setSalonsData] = useState([
     {
       id: 1,
       fullName: 'Alyvia Kelley',
       shopName: 'Sexy Braids',
       joinedOn: '06/06/2023',
       status: 'Active',
-      blocked: false
+      blocked: false,
     },
     {
       id: 2,
@@ -26,7 +24,7 @@ const Salons = () => {
       shopName: 'Nixon Day Spa',
       joinedOn: '09/10/2023',
       status: 'Active',
-      blocked: false
+      blocked: false,
     },
     {
       id: 3,
@@ -34,7 +32,7 @@ const Salons = () => {
       shopName: 'Ace Spa',
       joinedOn: '12/22/2023',
       status: 'Active',
-      blocked: false
+      blocked: false,
     },
     {
       id: 4,
@@ -42,7 +40,7 @@ const Salons = () => {
       shopName: 'Sc Barber Shop',
       joinedOn: '03/02/2023',
       status: 'Inactive',
-      blocked: false
+      blocked: false,
     },
     {
       id: 5,
@@ -50,7 +48,7 @@ const Salons = () => {
       shopName: 'CC Massage',
       joinedOn: '10/10/2023',
       status: 'Active',
-      blocked: false
+      blocked: false,
     },
     {
       id: 6,
@@ -58,7 +56,7 @@ const Salons = () => {
       shopName: 'Prince Barber Shop',
       joinedOn: '07/05/2023',
       status: 'Active',
-      blocked: false
+      blocked: false,
     },
     {
       id: 7,
@@ -66,7 +64,7 @@ const Salons = () => {
       shopName: 'RD Skin Care',
       joinedOn: '05/06/2023',
       status: 'Active',
-      blocked: false
+      blocked: false,
     },
     {
       id: 8,
@@ -74,7 +72,7 @@ const Salons = () => {
       shopName: 'A Nail Shop',
       joinedOn: '02/01/2023',
       status: 'Inactive',
-      blocked: false
+      blocked: false,
     },
     {
       id: 9,
@@ -82,7 +80,7 @@ const Salons = () => {
       shopName: 'Melvin Hair Removal',
       joinedOn: '08/03/2023',
       status: 'Inactive',
-      blocked: false
+      blocked: false,
     },
     {
       id: 10,
@@ -90,7 +88,7 @@ const Salons = () => {
       shopName: 'Thomas Skin Care',
       joinedOn: '11/08/2023',
       status: 'Blocked',
-      blocked: true
+      blocked: true,
     },
     {
       id: 11,
@@ -98,7 +96,7 @@ const Salons = () => {
       shopName: 'Chance Skin Care',
       joinedOn: '11/08/2023',
       status: 'Inactive',
-      blocked: false
+      blocked: false,
     },
     {
       id: 12,
@@ -106,7 +104,7 @@ const Salons = () => {
       shopName: 'Baptista Barber Shop',
       joinedOn: '11/08/2023',
       status: 'Blocked',
-      blocked: true
+      blocked: true,
     },
     {
       id: 13,
@@ -114,9 +112,11 @@ const Salons = () => {
       shopName: 'James Day Spa',
       joinedOn: '11/08/2023',
       status: 'Active',
-      blocked: false
-    }
-  ];
+      blocked: false,
+    },
+  ]);
+
+  const navigate = useNavigate();
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -150,7 +150,13 @@ const Salons = () => {
   const currentData = salonsData.slice(startIndex, endIndex);
 
   const handleToggleBlock = (id) => {
-    console.log('Toggle block for salon:', id);
+    setSalonsData((prevSalonsData) =>
+      prevSalonsData.map((salon) =>
+        salon.id === id
+          ? { ...salon, blocked: !salon.blocked, status: salon.blocked ? 'Active' : 'Blocked' }
+          : salon
+      )
+    );
   };
 
   const handleDeleteClick = (id) => {
@@ -159,7 +165,9 @@ const Salons = () => {
   };
 
   const handleDeleteConfirm = () => {
-    console.log('Deleting salon:', selectedSalonId);
+    setSalonsData((prevSalonsData) =>
+      prevSalonsData.filter((salon) => salon.id !== selectedSalonId)
+    );
     setShowDeletePopup(false);
     setSelectedSalonId(null);
   };
@@ -176,10 +184,10 @@ const Salons = () => {
         <h1 className="text-2xl lg:text-3xl font-[Rasa] font-semibold text-gray-900">
           Salons
         </h1>
-        
+
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <div className="relative">
-            <select 
+            <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 text-sm font-[Rasa] text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[120px]"
@@ -192,9 +200,10 @@ const Salons = () => {
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
           </div>
 
-          <button className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-[Rasa] font-medium hover:bg-gray-50 transition-colors flex items-center gap-2 whitespace-nowrap"
-                                onClick={() => navigate(`/dashboard/salons/add`)}
->
+          <button
+            className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-[Rasa] font-medium hover:bg-gray-50 transition-colors flex items-center gap-2 whitespace-nowrap"
+            onClick={() => navigate(`/dashboard/salons/add`)}
+          >
             <Plus className="w-4 h-4" />
             Add A New Salon
           </button>
@@ -255,7 +264,7 @@ const Salons = () => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-[Rasa] text-gray-700">
-                      {salon.blocked ? 'Block' : 'Unblock'}
+                      {salon.blocked ? 'Blocked' : 'Unblocked'}
                     </span>
                     <button
                       onClick={() => handleToggleBlock(salon.id)}
@@ -273,25 +282,25 @@ const Salons = () => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-2">
-                    <button 
+                    <button
                       onClick={() => navigate(`/dashboard/salons/edit/${salon.id}`)}
                       className="p-2 text-gray-400 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50"
                     >
                       <Edit className="w-4 h-4" />
                     </button>
-                    <button 
+                    <button
                       onClick={() => navigate(`/dashboard/salons/view/${salon.id}`)}
                       className="p-2 text-gray-400 hover:text-green-600 transition-colors rounded-lg hover:bg-green-50"
                     >
                       <Eye className="w-4 h-4" />
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleDeleteClick(salon.id)}
                       className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
-                    <button 
+                    <button
                       onClick={() => navigate(`/dashboard/salons/wallet/${salon.id}`)}
                       className="p-2 text-gray-400 hover:text-purple-600 transition-colors rounded-lg hover:bg-purple-50"
                     >
@@ -332,7 +341,7 @@ const Salons = () => {
           {[...Array(Math.min(5, totalPages))].map((_, index) => {
             const pageNumber = index + 1;
             const isActive = pageNumber === currentPage;
-            
+
             return (
               <button
                 key={pageNumber}
@@ -375,7 +384,7 @@ const Salons = () => {
       </div>
 
       {showDeletePopup && (
-        <div className="fixed inset-0  bg-opacity-30 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-[300px] text-center">
             <h2 className="text-xl font-[Rasa] font-medium text-gray-900 mb-4">Are you sure?</h2>
             <div className="flex justify-around">
@@ -394,8 +403,8 @@ const Salons = () => {
             </div>
             {selectedSalonId && (
               <p className="text-sm text-gray-600 mt-4">
-                {salonsData.find(s => s.id === selectedSalonId)?.shopName} -{' '}
-                {salonsData.find(s => s.id === selectedSalonId)?.joinedOn}
+                {salonsData.find((s) => s.id === selectedSalonId)?.shopName} -{' '}
+                {salonsData.find((s) => s.id === selectedSalonId)?.joinedOn}
               </p>
             )}
           </div>
