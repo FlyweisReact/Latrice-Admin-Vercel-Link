@@ -1,97 +1,145 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import React from "react";
+import { ArrowUpRight, ChevronLeft, ExternalLink } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 
 const WalletIndependent = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [walletData, setWalletData] = useState({
-    balance: 0,
-    transactions: []
-  });
-
-  // Mock data fetching - replace with actual API call
-  useEffect(() => {
-    // Simulating fetching wallet data by ID
-    const mockWalletData = {
-      balance: 1500.75,
-      transactions: [
-        { id: 1, date: '2023-11-01', amount: 200.50, type: 'Credit', description: 'Service Payment' },
-        { id: 2, date: '2023-11-02', amount: -50.00, type: 'Debit', description: 'Withdrawal' },
-        { id: 3, date: '2023-11-03', amount: 300.25, type: 'Credit', description: 'Service Payment' }
-      ]
-    };
-    setWalletData(mockWalletData);
-  }, [id]);
+  const nav = useNavigate();
+  const data = [
+    {
+      id: 1,
+      name: "Alyvia Kelley",
+      service: "Hair Cut",
+      date: "06/06/2023",
+      mode: "Credit Card",
+      amount: "$180.00",
+      txn: "12345678910111213",
+    },
+    {
+      id: 2,
+      name: "Jaiden Nixon",
+      service: "Hair Cut",
+      date: "09/10/2023",
+      mode: "UPI",
+      amount: "$180.00",
+      txn: "12345678910111213",
+    },
+    {
+      id: 3,
+      name: "Ace Foley",
+      service: "Hair Cut",
+      date: "12/22/2023",
+      mode: "PayPal",
+      amount: "$180.00",
+      txn: "12345678910111213",
+    },
+    {
+      id: 4,
+      name: "Nikolai Schmidt",
+      service: "Hair Cut",
+      date: "03/02/2023",
+      mode: "Wallet",
+      amount: "$180.00",
+      txn: "12345678910111213",
+    },
+    {
+      id: 5,
+      name: "Clayton Charles",
+      service: "Box Braids",
+      date: "10/10/2023",
+      mode: "Debit Card",
+      amount: "$180.00",
+      txn: "12345678910111213",
+    },
+  ];
 
   return (
-    <div className="w-full bg-white min-h-screen p-6">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center gap-4 mb-6">
-          <button
-            onClick={() => navigate('/dashboard/independents')}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-          >
-            <ArrowLeft className="w-6 h-6 text-gray-600" />
+    <div className="bg-white rounded-xl shadow p-6 w-full overflow-x-auto">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row items-center justify-between mb-6 gap-3 font-[rasa]">
+        <div className="flex items-center space-x-2">
+        <div className="cursor-pointer" onClick={() => nav(-1)}><FaArrowLeft /></div>
+          <h2 className="text-xl font-semibold">Sexy Braids’s Wallet</h2>
+        </div>
+        <h2 className="text-xl font-bold">$100</h2>
+        <div className="flex space-x-4 text-sm">
+          {["Daily", "Weekly", "Monthly", "Yearly"].map((label, idx) => (
+            <label
+              key={label}
+              className="flex items-center space-x-1 cursor-pointer"
+            >
+              <input
+                type="radio"
+                name="range"
+                defaultChecked={idx === 0}
+                className="accent-black"
+              />
+              <span>{label}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-gray-100 text-sm text-gray-700">
+              <th className="p-3 text-left">#</th>
+              <th className="p-3 text-left">User Name</th>
+              <th className="p-3 text-left">Service Name</th>
+              <th className="p-3 text-left">Date</th>
+              <th className="p-3 text-left">Payment Mode</th>
+              <th className="p-3 text-left">Payment Amount</th>
+              <th className="p-3 text-left">Transaction ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row, idx) => (
+              <tr
+                key={row.id}
+                className="border-b last:border-0 hover:bg-gray-50 text-sm"
+              >
+                <td className="p-3">{idx + 1}</td>
+                <td className="p-3">{row.name}</td>
+                <td className="p-3">{row.service}</td>
+                <td className="p-3 font-medium">{row.date}</td>
+                <td className="p-3 flex items-center space-x-2">
+                  <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                  <span>{row.mode}</span>
+                </td>
+                <td className="p-3">{row.amount}</td>
+                <td className="p-3 flex items-center justify-start space-x-2">
+                  <span>{row.txn}</span>
+                  <button className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-md flex items-center justify-center transition-colors duration-200">
+                    <ArrowUpRight className="w-4 h-4" />
+                  </button>                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination */}
+      <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex items-center space-x-2 text-sm">
+          <button className="px-2 py-1 border rounded bg-gray-100">‹</button>
+          <button className="px-2 py-1 border rounded bg-black text-white">
+            1
           </button>
-          <h1 className="text-2xl font-[Rasa] font-semibold text-gray-900">
-            Independent Wallet
-          </h1>
+          <button className="px-2 py-1 border rounded">2</button>
+          <button className="px-2 py-1 border rounded">3</button>
+          <button className="px-2 py-1 border rounded">4</button>
+          <button className="px-2 py-1 border rounded bg-gray-100">›</button>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <div className="mb-6">
-            <h3 className="text-sm font-[Rasa] font-medium text-gray-700">Current Balance</h3>
-            <p className="text-2xl font-[Rasa] text-gray-900">${walletData.balance.toFixed(2)}</p>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
-                <tr>
-                  <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider">
-                    Date
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider">
-                    Amount
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider">
-                    Type
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider">
-                    Description
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {walletData.transactions.map((transaction) => (
-                  <tr key={transaction.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-900">
-                      {transaction.date}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-900">
-                      ${Math.abs(transaction.amount).toFixed(2)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-900">
-                      {transaction.type}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-900">
-                      {transaction.description}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="mt-6 flex justify-end">
-            <button
-              onClick={() => navigate('/dashboard/independents')}
-              className="px-4 py-2 text-sm font-[Rasa] text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100"
-            >
-              Back
-            </button>
-          </div>
+        <div className="text-sm flex items-center space-x-2">
+          <select className="border rounded px-2 py-1">
+            <option>10</option>
+            <option>20</option>
+            <option>50</option>
+          </select>
+          <span>/Page</span>
         </div>
       </div>
     </div>

@@ -7,7 +7,8 @@ const Independents = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortBy, setSortBy] = useState('name');
-
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [selectedSalonId, setSelectedSalonId] = useState(null);
   const salonsData = [
     {
       id: 1,
@@ -151,6 +152,24 @@ const Independents = () => {
     console.log('Toggle block for salon:', id);
   };
 
+  const handleDeleteClick = (id) => {
+    setSelectedSalonId(id);
+    setShowDeletePopup(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    setSalonsData((prevSalonsData) =>
+      prevSalonsData.filter((salon) => salon.id !== selectedSalonId)
+    );
+    setShowDeletePopup(false);
+    setSelectedSalonId(null);
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeletePopup(false);
+    setSelectedSalonId(null);
+  };
+
   return (
     <div className="w-full bg-white min-h-screen">
       {/* Header */}
@@ -158,11 +177,11 @@ const Independents = () => {
         <h1 className="text-2xl lg:text-3xl font-[Rasa] font-semibold text-gray-900">
           Independents
         </h1>
-        
+
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           {/* Sort Dropdown */}
           <div className="relative">
-            <select 
+            <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 text-sm font-[Rasa] text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[120px]"
@@ -176,7 +195,7 @@ const Independents = () => {
           </div>
 
           {/* Add New Independent Button */}
-          <button 
+          <button
             onClick={() => navigate('/dashboard/independents/add')}
             className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-[Rasa] font-medium hover:bg-gray-50 transition-colors flex items-center gap-2 whitespace-nowrap"
           >
@@ -260,14 +279,12 @@ const Independents = () => {
                     </span>
                     <button
                       onClick={() => handleToggleBlock(salon.id)}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                        salon.blocked ? 'bg-red-500' : 'bg-green-500'
-                      }`}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${salon.blocked ? 'bg-red-500' : 'bg-green-500'
+                        }`}
                     >
                       <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                          salon.blocked ? 'translate-x-6' : 'translate-x-1'
-                        }`}
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${salon.blocked ? 'translate-x-6' : 'translate-x-1'
+                          }`}
                       />
                     </button>
                   </div>
@@ -276,22 +293,25 @@ const Independents = () => {
                 {/* Actions */}
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-2">
-                    <button 
+                    <button
                       onClick={() => navigate(`/dashboard/independents/edit/${salon.id}`)}
                       className="p-2 text-gray-400 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50"
                     >
                       <Edit className="w-4 h-4" />
                     </button>
-                    <button 
+                    <button
                       onClick={() => navigate(`/dashboard/independents/view/${salon.id}`)}
                       className="p-2 text-gray-400 hover:text-green-600 transition-colors rounded-lg hover:bg-green-50"
                     >
                       <Eye className="w-4 h-4" />
                     </button>
-                    <button className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50">
+                    <button
+                      onClick={() => handleDeleteClick(salon.id)}
+                      className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50"
+                    >
                       <Trash2 className="w-4 h-4" />
                     </button>
-                    <button 
+                    <button
                       onClick={() => navigate(`/dashboard/independents/wallet/${salon.id}`)}
                       className="p-2 text-gray-400 hover:text-purple-600 transition-colors rounded-lg hover:bg-purple-50"
                     >
@@ -335,16 +355,15 @@ const Independents = () => {
           {[...Array(Math.min(5, totalPages))].map((_, index) => {
             const pageNumber = index + 1;
             const isActive = pageNumber === currentPage;
-            
+
             return (
               <button
                 key={pageNumber}
                 onClick={() => setCurrentPage(pageNumber)}
-                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${
-                  isActive
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'text-gray-600 border-gray-300 hover:bg-gray-100'
-                }`}
+                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${isActive
+                  ? 'bg-blue-600 text-white border-blue-600'
+                  : 'text-gray-600 border-gray-300 hover:bg-gray-100'
+                  }`}
               >
                 {pageNumber}
               </button>
@@ -356,11 +375,10 @@ const Independents = () => {
               <span className="px-2 text-sm font-[Rasa] text-gray-500">...</span>
               <button
                 onClick={() => setCurrentPage(totalPages)}
-                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${
-                  currentPage === totalPages
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'text-gray-600 border-gray-300 hover:bg-gray-100'
-                }`}
+                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${currentPage === totalPages
+                  ? 'bg-blue-600 text-white border-blue-600'
+                  : 'text-gray-600 border-gray-300 hover:bg-gray-100'
+                  }`}
               >
                 {totalPages}
               </button>
@@ -377,6 +395,33 @@ const Independents = () => {
           </button>
         </div>
       </div>
+      {showDeletePopup && (
+        <div className="fixed inset-0 bg-black/30 bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-[300px] text-center">
+            <h2 className="text-xl font-[Rasa] font-medium text-gray-900 mb-4">Are you sure?</h2>
+            <div className="flex justify-around">
+              <button
+                onClick={handleDeleteCancel}
+                className="px-4 py-2 bg-gray-400 text-white rounded-full hover:bg-gray-500 transition-colors"
+              >
+                No, Cancel
+              </button>
+              <button
+                onClick={handleDeleteConfirm}
+                className="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+              >
+                Yes, Delete
+              </button>
+            </div>
+            {selectedSalonId && (
+              <p className="text-sm text-gray-600 mt-4">
+                {salonsData.find((s) => s.id === selectedSalonId)?.shopName} -{' '}
+                {salonsData.find((s) => s.id === selectedSalonId)?.joinedOn}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

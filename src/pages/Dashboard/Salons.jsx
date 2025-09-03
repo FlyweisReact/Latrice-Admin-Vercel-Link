@@ -384,7 +384,7 @@ const Salons = () => {
       </div>
 
       {showDeletePopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/30 bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-[300px] text-center">
             <h2 className="text-xl font-[Rasa] font-medium text-gray-900 mb-4">Are you sure?</h2>
             <div className="flex justify-around">
