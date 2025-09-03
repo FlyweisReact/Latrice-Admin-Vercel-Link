@@ -1,13 +1,19 @@
 import React from "react";
 import { Plus, Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const CreatePromotions = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="p-6 lg:p-2 w-full font-[Rasa]">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
         <h1 className="text-3xl font-bold text-gray-900">Create Promotions</h1>
-        <button className="mt-4 md:mt-0 flex items-center gap-2 border rounded-md px-4 py-2 text-sm font-medium text-gray-700 bg-white shadow-sm hover:bg-gray-50">
+        <button
+          onClick={() => navigate("/dashboard/create-promotions/add")}
+          className="mt-4 md:mt-0 flex items-center gap-2 border rounded-md px-4 py-2 text-sm font-medium text-gray-700 bg-white shadow-sm hover:bg-gray-50"
+        >
           <Plus className="w-4 h-4" />
           Create A Promotion
         </button>

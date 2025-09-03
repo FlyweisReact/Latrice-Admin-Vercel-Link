@@ -27,6 +27,7 @@ const MonitorFeedback = lazy(() => import("./pages/Dashboard/MonitorFeedback"));
 const UploadBlogs = lazy(() => import("./pages/Dashboard/UploadBlogs"));
 const CustomerSupport = lazy(() => import("./pages/Dashboard/CustomerSupport"));
 const AddPolicies = lazy(() => import("./pages/Dashboard/AddPolicies"));
+const CreatePromotionForm = lazy(() => import("./components/CreatePromotions/CreatePromotionForm"));
 
 // New Salon Action Pages
 const AddSalon = lazy(() => import("./components/Salon/AddSalon"));
@@ -95,6 +96,7 @@ export default function App() {
             <Route path="commission-revenue" element={<CommissionRevenue />} />
             <Route path="payout-management" element={<PayoutManagement />} />
             <Route path="create-promotions" element={<CreatePromotions />} />
+            <Route path="create-promotions/add" element={<CreatePromotionForm />} />
             <Route path="push-notification" element={<PushNotification />} />
             <Route path="reports" element={<Reports />} />
             <Route path="monitor-feedback" element={<MonitorFeedback />} />

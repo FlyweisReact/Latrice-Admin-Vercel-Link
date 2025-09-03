@@ -76,10 +76,11 @@ const AdminDashboardLayout = () => {
     navigate("/");
   };
 
-  // Check if the current route is under /dashboard/salons, /dashboard/independents, or /dashboard/users or their subroutes
+  // Check if the current route is under /dashboard/salons, /dashboard/independents, /dashboard/users, or /dashboard/create-promotions or their subroutes
   const isSalonsActive = location.pathname.startsWith("/dashboard/salons");
   const isIndependentsActive = location.pathname.startsWith("/dashboard/independents");
   const isUsersActive = location.pathname.startsWith("/dashboard/users");
+  const isCreatePromotionsActive = location.pathname.startsWith("/dashboard/create-promotions");
 
   return (
     <div className="flex h-screen bg-white relative overflow-x-hidden">
@@ -121,7 +122,8 @@ const AdminDashboardLayout = () => {
                     (location.pathname === item.path ||
                       (item.name === "Salons" && isSalonsActive) ||
                       (item.name === "Independents" && isIndependentsActive) ||
-                      (item.name === "Users" && isUsersActive))
+                      (item.name === "Users" && isUsersActive) ||
+                      (item.name === "Create Promotions" && isCreatePromotionsActive))
                       ? "bg-[#FFEBBA] text-black"
                       : "hover:bg-gray-800"
                   }`}
@@ -132,7 +134,8 @@ const AdminDashboardLayout = () => {
                       (location.pathname === item.path ||
                         (item.name === "Salons" && isSalonsActive) ||
                         (item.name === "Independents" && isIndependentsActive) ||
-                        (item.name === "Users" && isUsersActive))
+                        (item.name === "Users" && isUsersActive) ||
+                        (item.name === "Create Promotions" && isCreatePromotionsActive))
                         ? "bg-white"
                         : "bg-[#FFCC4E]"
                     }`}
@@ -149,7 +152,7 @@ const AdminDashboardLayout = () => {
         <div className="w-full px-4 pb-12 mt-2">
           <button
             onClick={handleLogout}
-            className="flex items-center px-4 py-3 text-[20px] font-[Rasa]  hover:bg-gray-800 rounded-l-full w-full"
+            className="flex items-center px-4 py-3 text-[20px] font-[Rasa] hover:bg-gray-800 rounded-l-full w-full"
           >
             <div className="w-8 h-8 rounded-full bg-yellow-400 flex justify-center items-center mr-3">
               <FaSignOutAlt />
@@ -214,7 +217,7 @@ const AdminDashboardLayout = () => {
           </div>
         </header>
 
-        <main className="p-4 pt-20 md:pt-24 w-full overflow-x-hidden bg-[#FAF9F6] ">
+        <main className="p-4 pt-20 md:pt-24 w-full overflow-x-hidden bg-[#FAF9F6]">
           <Outlet />
         </main>
       </div>
