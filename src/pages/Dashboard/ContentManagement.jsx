@@ -1,13 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Edit, Trash2 } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import AddCategoryModal from '../../components/ContentManagement/AddCategoryModal';
+import EditCategoryModal from '../../components/ContentManagement/EditCategoryModal';
 
 const ContentManagement = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'Categories');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [selectedSalonId, setSelectedSalonId] = useState(null);
 
+  const handleDeleteClick = (id) => {
+    setSelectedSalonId(id);
+    setShowDeletePopup(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    setSalonsData((categoriesData) =>
+      categoriesData.filter((salon) => salon.id !== selectedSalonId)
+    );
+    setShowDeletePopup(false);
+    setSelectedSalonId(null);
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeletePopup(false);
+    setSelectedSalonId(null);
+  };
   useEffect(() => {
     navigate(`?tab=${activeTab}`, { replace: true });
   }, [activeTab, navigate]);
@@ -240,8 +263,8 @@ const ContentManagement = () => {
               <tr key={row.id} className="hover:bg-gray-50 transition-colors duration-200">
                 <td className="px-6 py-4 text-sm text-gray-900">{row.id}</td>
                 <td className="px-6 py-4">
-                  <img 
-                    src={row.image} 
+                  <img
+                    src={row.image}
                     alt={row.categoryName}
                     className="w-16 h-12 object-cover rounded-md"
                   />
@@ -273,10 +296,11 @@ const ContentManagement = () => {
                 <td className="px-6 py-4">
                   <div className="flex items-center space-x-2">
                     <button className="p-1 text-gray-500 hover:text-gray-700 transition-colors duration-200">
-                      <Edit className="w-4 h-4" />
+                      <Edit className="w-4 h-4" onClick={() => setIsEditModalOpen(true)} />
                     </button>
                     <button className="p-1 text-gray-500 hover:text-red-600 transition-colors duration-200">
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-4 h-4" onClick={() => handleDeleteClick(row.id)}
+                      />
                     </button>
                   </div>
                 </td>
@@ -335,10 +359,10 @@ const ContentManagement = () => {
                 <td className="px-6 py-4">
                   <div className="flex items-center space-x-2">
                     <button className="p-1 text-gray-500 hover:text-gray-700 transition-colors duration-200">
-                      <Edit className="w-4 h-4" />
+                      <Edit className="w-4 h-4" onClick={() => setIsEditModalOpen(true)} />
                     </button>
                     <button className="p-1 text-gray-500 hover:text-red-600 transition-colors duration-200">
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-4 h-4" onClick={() => handleDeleteClick(row.id)}/>
                     </button>
                   </div>
                 </td>
@@ -416,10 +440,10 @@ const ContentManagement = () => {
                 <td className="px-6 py-4">
                   <div className="flex items-center space-x-2">
                     <button className="p-1 text-gray-500 hover:text-gray-700 transition-colors duration-200">
-                      <Edit className="w-4 h-4" />
+                      <Edit className="w-4 h-4" onClick={() => setIsEditModalOpen(true)} />
                     </button>
                     <button className="p-1 text-gray-500 hover:text-red-600 transition-colors duration-200">
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-4 h-4" onClick={() => handleDeleteClick(row.id)}/>
                     </button>
                   </div>
                 </td>
@@ -435,7 +459,9 @@ const ContentManagement = () => {
     switch (activeTab) {
       case 'Categories':
         return (
-          <button className="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors duration-200">
+          <button className="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+            onClick={() => setIsModalOpen(true)}
+          >
             <span className="mr-2 text-lg">+</span>
             Add A New Category
           </button>
@@ -491,11 +517,10 @@ const ContentManagement = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 relative ${
-                    activeTab === tab
-                      ? 'border-black text-gray-900'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
+                  className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 relative ${activeTab === tab
+                    ? 'border-black text-gray-900'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
                 >
                   {tab}
                   {activeTab === tab && (
@@ -511,6 +536,29 @@ const ContentManagement = () => {
         {activeTab === 'Categories' && renderCategoriesTab()}
         {activeTab === 'Services' && renderServicesTab()}
         {activeTab === 'Additional Services' && renderAdditionalServicesTab()}
+        <AddCategoryModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        <EditCategoryModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} />
+        {showDeletePopup && (
+          <div className="fixed inset-0 bg-black/30 bg-opacity-30 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-[300px] text-center">
+              <h2 className="text-xl font-[Rasa] font-medium text-gray-900 mb-4">Are you sure?</h2>
+              <div className="flex justify-around">
+                <button
+                  onClick={handleDeleteCancel}
+                  className="px-4 py-2 bg-gray-400 text-white rounded-full hover:bg-gray-500 transition-colors"
+                >
+                  No, Cancel
+                </button>
+                <button
+                  onClick={handleDeleteConfirm}
+                  className="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                >
+                  Yes, Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
