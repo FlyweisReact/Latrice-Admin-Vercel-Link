@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Edit, Eye, Trash2, Download, ChevronDown, Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Edit, Eye, Trash2, ChevronDown, Plus, Wallet } from 'lucide-react';
 
 const Independents = () => {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortBy, setSortBy] = useState('name');
@@ -173,8 +175,11 @@ const Independents = () => {
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
           </div>
 
-          {/* Add New Salon Button */}
-          <button className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-[Rasa] font-medium hover:bg-gray-50 transition-colors flex items-center gap-2 whitespace-nowrap">
+          {/* Add New Independent Button */}
+          <button 
+            onClick={() => navigate('/dashboard/independents/add')}
+            className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-[Rasa] font-medium hover:bg-gray-50 transition-colors flex items-center gap-2 whitespace-nowrap"
+          >
             <Plus className="w-4 h-4" />
             Add A New Independent Salon
           </button>
@@ -245,6 +250,8 @@ const Independents = () => {
                   </div>
                 </td>
 
+
+
                 {/* Block/Unblock Toggle */}
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-3">
@@ -269,17 +276,26 @@ const Independents = () => {
                 {/* Actions */}
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-2">
-                    <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50">
+                    <button 
+                      onClick={() => navigate(`/dashboard/independents/edit/${salon.id}`)}
+                      className="p-2 text-gray-400 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50"
+                    >
                       <Edit className="w-4 h-4" />
                     </button>
-                    <button className="p-2 text-gray-400 hover:text-green-600 transition-colors rounded-lg hover:bg-green-50">
+                    <button 
+                      onClick={() => navigate(`/dashboard/independents/view/${salon.id}`)}
+                      className="p-2 text-gray-400 hover:text-green-600 transition-colors rounded-lg hover:bg-green-50"
+                    >
                       <Eye className="w-4 h-4" />
                     </button>
                     <button className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50">
                       <Trash2 className="w-4 h-4" />
                     </button>
-                    <button className="p-2 text-gray-400 hover:text-purple-600 transition-colors rounded-lg hover:bg-purple-50">
-                      <Download className="w-4 h-4" />
+                    <button 
+                      onClick={() => navigate(`/dashboard/independents/wallet/${salon.id}`)}
+                      className="p-2 text-gray-400 hover:text-purple-600 transition-colors rounded-lg hover:bg-purple-50"
+                    >
+                      <Wallet className="w-4 h-4" />
                     </button>
                   </div>
                 </td>

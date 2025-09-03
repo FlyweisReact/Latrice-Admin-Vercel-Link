@@ -76,8 +76,9 @@ const AdminDashboardLayout = () => {
     navigate("/");
   };
 
-  // Check if the current route is under /dashboard/salons or its subroutes
+  // Check if the current route is under /dashboard/salons or /dashboard/independents or their subroutes
   const isSalonsActive = location.pathname.startsWith("/dashboard/salons");
+  const isIndependentsActive = location.pathname.startsWith("/dashboard/independents");
 
   return (
     <div className="flex h-screen bg-white relative overflow-x-hidden">
@@ -116,7 +117,9 @@ const AdminDashboardLayout = () => {
                 <Link
                   to={item.path}
                   className={`flex items-center px-4 py-3 text-[20px] font-[Rasa] transition-colors duration-200 rounded-[15px] ${
-                    (location.pathname === item.path || (item.name === "Salons" && isSalonsActive))
+                    (location.pathname === item.path ||
+                      (item.name === "Salons" && isSalonsActive) ||
+                      (item.name === "Independents" && isIndependentsActive))
                       ? "bg-[#FFEBBA] text-black"
                       : "hover:bg-gray-800"
                   }`}
@@ -124,7 +127,9 @@ const AdminDashboardLayout = () => {
                 >
                   <div
                     className={`w-8 h-8 rounded-full flex justify-center items-center mr-3 ${
-                      (location.pathname === item.path || (item.name === "Salons" && isSalonsActive))
+                      (location.pathname === item.path ||
+                        (item.name === "Salons" && isSalonsActive) ||
+                        (item.name === "Independents" && isIndependentsActive))
                         ? "bg-white"
                         : "bg-[#FFCC4E]"
                     }`}
@@ -191,9 +196,9 @@ const AdminDashboardLayout = () => {
               <FiBell className="text-red-500" />
             </button>
             <NotificationOffcanvas
-                        showNotification={showNotification}
-                        setShowNotification={setShowNotification}
-                      />
+              showNotification={showNotification}
+              setShowNotification={setShowNotification}
+            />
 
             <div className="flex items-center">
               <span className="mr-3 font-medium">Leo Aminoff</span>

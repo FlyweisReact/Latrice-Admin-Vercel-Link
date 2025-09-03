@@ -35,6 +35,13 @@ const EditSalon = lazy(() => import("./components/Salon/EditSalon"));
 const ViewSalon = lazy(() => import("./components/Salon/ViewSalon"));
 const WalletView = lazy(() => import("./components/Salon/WalletView"));
 
+// Independent Action Pages
+const AddIndependent = lazy(() => import("./components/Independents/AddIndependent"));
+const EditIndependent = lazy(() => import("./components/Independents/EditIndependent"));
+const ViewIndependent = lazy(() => import("./components/Independents/ViewIndependent"));
+const WalletIndependent = lazy(() => import("./components/Independents/WalletIndependent"));
+
+
 const Settings = lazy(() => import("./pages/Dashboard/Settings"));
 
 const LoadingFallback = () => (
@@ -69,6 +76,14 @@ export default function App() {
             <Route path="salons/add" element={<AddSalon />} />
 
             <Route path="independents" element={<Independents />} />
+            <Route path="independents/add" element={<AddIndependent />} />
+            <Route path="independents/edit/:id" element={<EditIndependent />} />
+            <Route path="independents/view/:id" element={<ViewIndependent />} />
+            <Route path="independents/wallet/:id" element={<WalletIndependent />} />
+
+
+
+
             <Route path="users" element={<Users />} />
             <Route path="monitor-hiring" element={<MonitorHiring />} />
             <Route path="dispute-resolution" element={<DisputeResolution />} />
