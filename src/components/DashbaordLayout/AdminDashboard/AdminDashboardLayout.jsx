@@ -76,11 +76,12 @@ const AdminDashboardLayout = () => {
     navigate("/");
   };
 
-  // Check if the current route is under /dashboard/salons, /dashboard/independents, /dashboard/users, or /dashboard/create-promotions or their subroutes
+  // Check if the current route is under specific dashboard paths or their subroutes
   const isSalonsActive = location.pathname.startsWith("/dashboard/salons");
   const isIndependentsActive = location.pathname.startsWith("/dashboard/independents");
   const isUsersActive = location.pathname.startsWith("/dashboard/users");
   const isCreatePromotionsActive = location.pathname.startsWith("/dashboard/create-promotions");
+  const isCustomerSupportActive = location.pathname.startsWith("/dashboard/customer-support");
 
   return (
     <div className="flex h-screen bg-white relative overflow-x-hidden">
@@ -123,7 +124,8 @@ const AdminDashboardLayout = () => {
                       (item.name === "Salons" && isSalonsActive) ||
                       (item.name === "Independents" && isIndependentsActive) ||
                       (item.name === "Users" && isUsersActive) ||
-                      (item.name === "Create Promotions" && isCreatePromotionsActive))
+                      (item.name === "Create Promotions" && isCreatePromotionsActive) ||
+                      (item.name === "Customer Support" && isCustomerSupportActive))
                       ? "bg-[#FFEBBA] text-black"
                       : "hover:bg-gray-800"
                   }`}
@@ -135,7 +137,8 @@ const AdminDashboardLayout = () => {
                         (item.name === "Salons" && isSalonsActive) ||
                         (item.name === "Independents" && isIndependentsActive) ||
                         (item.name === "Users" && isUsersActive) ||
-                        (item.name === "Create Promotions" && isCreatePromotionsActive))
+                        (item.name === "Create Promotions" && isCreatePromotionsActive) ||
+                        (item.name === "Customer Support" && isCustomerSupportActive))
                         ? "bg-white"
                         : "bg-[#FFCC4E]"
                     }`}

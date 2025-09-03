@@ -46,6 +46,9 @@ const AddUser = lazy(() => import("./components/Users/AddUser"));
 const EditUser = lazy(() => import("./components/Users/EditUser"));
 const ViewUser = lazy(() => import("./components/Users/ViewUser"));
 
+// New Customer Support Action Pages
+const ViewSupportTicket = lazy(() => import("./components/CustomerSupport/ViewSupportTicket"));
+
 const Settings = lazy(() => import("./pages/Dashboard/Settings"));
 
 const LoadingFallback = () => (
@@ -102,6 +105,7 @@ export default function App() {
             <Route path="monitor-feedback" element={<MonitorFeedback />} />
             <Route path="upload-blogs" element={<UploadBlogs />} />
             <Route path="customer-support" element={<CustomerSupport />} />
+            <Route path="customer-support/view/:id" element={<ViewSupportTicket />} />
             <Route path="add-policies" element={<AddPolicies />} />
 
             <Route path="settings" element={<Settings />} />
