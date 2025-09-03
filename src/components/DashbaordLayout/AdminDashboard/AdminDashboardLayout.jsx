@@ -76,9 +76,10 @@ const AdminDashboardLayout = () => {
     navigate("/");
   };
 
-  // Check if the current route is under /dashboard/salons or /dashboard/independents or their subroutes
+  // Check if the current route is under /dashboard/salons, /dashboard/independents, or /dashboard/users or their subroutes
   const isSalonsActive = location.pathname.startsWith("/dashboard/salons");
   const isIndependentsActive = location.pathname.startsWith("/dashboard/independents");
+  const isUsersActive = location.pathname.startsWith("/dashboard/users");
 
   return (
     <div className="flex h-screen bg-white relative overflow-x-hidden">
@@ -119,7 +120,8 @@ const AdminDashboardLayout = () => {
                   className={`flex items-center px-4 py-3 text-[20px] font-[Rasa] transition-colors duration-200 rounded-[15px] ${
                     (location.pathname === item.path ||
                       (item.name === "Salons" && isSalonsActive) ||
-                      (item.name === "Independents" && isIndependentsActive))
+                      (item.name === "Independents" && isIndependentsActive) ||
+                      (item.name === "Users" && isUsersActive))
                       ? "bg-[#FFEBBA] text-black"
                       : "hover:bg-gray-800"
                   }`}
@@ -129,7 +131,8 @@ const AdminDashboardLayout = () => {
                     className={`w-8 h-8 rounded-full flex justify-center items-center mr-3 ${
                       (location.pathname === item.path ||
                         (item.name === "Salons" && isSalonsActive) ||
-                        (item.name === "Independents" && isIndependentsActive))
+                        (item.name === "Independents" && isIndependentsActive) ||
+                        (item.name === "Users" && isUsersActive))
                         ? "bg-white"
                         : "bg-[#FFCC4E]"
                     }`}
@@ -146,7 +149,7 @@ const AdminDashboardLayout = () => {
         <div className="w-full px-4 pb-12 mt-2">
           <button
             onClick={handleLogout}
-            className="flex items-center px-4 py-3 text-[20px] font-[Rasa] hover:bg-gray-800 rounded-l-full w-full"
+            className="flex items-center px-4 py-3 text-[20px] font-[Rasa]  hover:bg-gray-800 rounded-l-full w-full"
           >
             <div className="w-8 h-8 rounded-full bg-yellow-400 flex justify-center items-center mr-3">
               <FaSignOutAlt />

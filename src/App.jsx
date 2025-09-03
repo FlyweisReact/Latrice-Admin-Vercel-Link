@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ScrollToTop } from "./utils/utils";
 import AdminDashboardLayout from "./components/DashbaordLayout/AdminDashboard/AdminDashboardLayout";
 
-
 // Auth pages
 const SignIn = lazy(() => import("./pages/AuthPages/Login"));
 const Signup = lazy(() => import("./pages/AuthPages/Signup"));
@@ -41,6 +40,10 @@ const EditIndependent = lazy(() => import("./components/Independents/EditIndepen
 const ViewIndependent = lazy(() => import("./components/Independents/ViewIndependent"));
 const WalletIndependent = lazy(() => import("./components/Independents/WalletIndependent"));
 
+// New User Action Pages
+const AddUser = lazy(() => import("./components/Users/AddUser"));
+const EditUser = lazy(() => import("./components/Users/EditUser"));
+const ViewUser = lazy(() => import("./components/Users/ViewUser"));
 
 const Settings = lazy(() => import("./pages/Dashboard/Settings"));
 
@@ -81,10 +84,11 @@ export default function App() {
             <Route path="independents/view/:id" element={<ViewIndependent />} />
             <Route path="independents/wallet/:id" element={<WalletIndependent />} />
 
-
-
-
             <Route path="users" element={<Users />} />
+            <Route path="users/add" element={<AddUser />} />
+            <Route path="users/edit/:id" element={<EditUser />} />
+            <Route path="users/view/:id" element={<ViewUser />} />
+
             <Route path="monitor-hiring" element={<MonitorHiring />} />
             <Route path="dispute-resolution" element={<DisputeResolution />} />
             <Route path="content-management" element={<ContentManagement />} />
@@ -99,7 +103,6 @@ export default function App() {
             <Route path="add-policies" element={<AddPolicies />} />
 
             <Route path="settings" element={<Settings />} />
-
           </Route>
         </Routes>
       </Suspense>
