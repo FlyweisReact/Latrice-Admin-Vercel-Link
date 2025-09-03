@@ -1,60 +1,114 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft } from 'lucide-react';
+import React from 'react';
+import { ArrowLeft, Edit3 } from 'lucide-react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const ViewUser = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-
-  // Mock data fetch (replace with actual API call)
-  useEffect(() => {
-    const mockUser = {
-      id: id,
-      fullName: 'Alyvia Kelley',
-      shopName: 'Sexy Braids',
-      joinedOn: '06/06/2023',
-      status: 'Active',
-      blocked: false
-    };
-    setUser(mockUser);
-  }, [id]);
-
-  if (!user) {
-    return <div>Loading...</div>;
-  }
-
+  const { id } = useParams(); // ✅ get ID from route params
   return (
-    <div className="w-full bg-white min-h-screen p-6">
-      <div className="flex items-center mb-6">
-        <button onClick={() => navigate('/dashboard/users')} className="mr-4">
-          <ChevronLeft className="w-6 h-6 text-gray-600" />
-        </button>
-        <h1 className="text-2xl font-[Rasa] font-semibold text-gray-900">User Details</h1>
-      </div>
+    <div className="min-h-screen p-4 md:p-2">
+      <div className="w-full mx-auto rounded-lg ">
+        {/* Header */}
+        <div className="flex items-center justify-between ">
+          <div className="flex items-center gap-3">
+            <ArrowLeft className="w-6 h-6 text-gray-600 cursor-pointer hover:text-gray-800 transition-colors" onClick={()=>navigate('/dashboard/users')}/>
+            <h1 className="text-xl font-semibold text-gray-900">Wilson George</h1>
+          </div>
+        </div>
 
-      <div className="max-w-lg bg-gray-50 p-6 rounded-lg shadow-sm">
-        <div className="mb-4">
-          <h3 className="text-sm font-[Rasa] text-gray-600">Full Name</h3>
-          <p className="text-lg font-[Rasa] text-gray-900">{user.fullName}</p>
-        </div>
-        <div className="mb-4">
-          <h3 className="text-sm font-[Rasa] text-gray-600">Shop Name</h3>
-          <p className="text-lg font-[Rasa] text-gray-900">{user.shopName}</p>
-        </div>
-        <div className="mb-4">
-          <h3 className="text-sm font-[Rasa] text-gray-600">Joined On</h3>
-          <p className="text-lg font-[Rasa] text-gray-900">{user.joinedOn}</p>
-        </div>
-        <div className="mb-4">
-          <h3 className="text-sm font-[Rasa] text-gray-600">Status</h3>
-          <p className={`text-lg font-[Rasa] ${user.status === 'Active' ? 'text-green-600' : user.status === 'Inactive' ? 'text-gray-600' : 'text-red-600'}`}>
-            {user.status}
-          </p>
-        </div>
-        <div className="mb-4">
-          <h3 className="text-sm font-[Rasa] text-gray-600">Blocked</h3>
-          <p className="text-lg font-[Rasa] text-gray-900">{user.blocked ? 'Yes' : 'No'}</p>
+        {/* Profile Section */}
+        <div className="p-6 space-y-6">
+
+          <div className="flex items-start gap-6 bg-white border border-gray-200 px-10 py-10 rounded-lg">
+
+            {/* Profile Picture */}
+
+            <div className="flex-shrink-0">
+              <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-200">
+                <img
+                  src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop"
+                  alt="Wilson George"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+
+            {/* User Details Grid */}
+            <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+              {/* Left Column */}
+              <div className="space-y-4">
+                <div>
+                  <div className="text-sm font-medium text-gray-900 mb-1">Wilson George</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-600">+1 (778) 745 2369</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-600">Email ID : email@example.com</div>
+                </div>
+              </div>
+
+              {/* Right Column */}
+              <div className="space-y-4">
+                <div>
+                  <div className="text-sm text-gray-600">DOB : 1990-05-12</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-600">User ID: U01431</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-600">Country: United States of America</div>
+                </div>
+              </div>
+            </div>
+            <Edit3 className="w-5 h-5 text-gray-600 cursor-pointer hover:text-gray-800 transition-colors"
+              onClick={() => navigate(`/dashboard/users/edit/${id}`)} // ✅ uses ID from params
+            />
+
+          </div>
+
+          {/* Address Section */}
+          <div className="pt-6 bg-white border border-gray-200 px-10 py-10 rounded-lg">
+            <h2 className="text-lg font-medium text-gray-900 mb-6">Address</h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Address and City Row */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Address
+                </label>
+                <div className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm text-gray-900 bg-gray-50">
+                  47 W 13th St, New York
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  City
+                </label>
+                <div className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm text-gray-900 bg-gray-50">
+                  New York
+                </div>
+              </div>
+
+              {/* Postal Code and Country Row */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Postal Code
+                </label>
+                <div className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm text-gray-900 bg-gray-50">
+                  10011
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Country
+                </label>
+                <div className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm text-gray-900 bg-gray-50">
+                  USA
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

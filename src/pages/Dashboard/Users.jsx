@@ -291,9 +291,7 @@ const Users = () => {
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
-                    <button className="p-2 text-gray-400 hover:text-purple-600 transition-colors rounded-lg hover:bg-purple-50">
-                      <Download className="w-4 h-4" />
-                    </button>
+                   
                   </div>
                 </td>
               </tr>
