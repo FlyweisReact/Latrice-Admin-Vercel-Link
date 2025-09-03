@@ -1,10 +1,11 @@
+// EditServiceModal.jsx
 import React, { useState } from 'react';
-import { Edit, Plus } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 
 const EditServiceModal = ({ onClose, onEdit, initialData }) => {
   const [formData, setFormData] = useState(initialData || {
-    serviceType: '',
-    sizeLength: '',
+    serviceLength: '',
+    serviceSize: '',
     price: '',
     duration: '',
     description: ''
@@ -22,91 +23,150 @@ const EditServiceModal = ({ onClose, onEdit, initialData }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/30 bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg w-[500px] p-6">
-        <div className="flex justify-between items-center border-b pb-2 mb-4">
-          <h2 className="text-xl font-medium text-gray-900">BOX BRAIDS</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">&times;</button>
+    <div className="fixed inset-0 bg-black/30 bg-opacity-30 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg w-full max-w-[500px] mx-4">
+        {/* Header */}
+        <div className="flex justify-between items-center p-6 border-b border-gray-200">
+          <h2 className="text-lg font-medium text-gray-900">BOX BRAIDS</h2>
+          <button 
+            onClick={onClose} 
+            className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+          >
+            <X size={20} />
+          </button>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Select service length</label>
-              <select
-                name="sizeLength"
-                value={formData.sizeLength}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
-              >
-                <option value="">Select length</option>
-                <option value="Small">Small</option>
-                <option value="Jumbo">Jumbo</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Select service size</label>
-              <select
-                name="sizeLength"
-                value={formData.sizeLength}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
-              >
-                <option value="">Select size</option>
-                <option value="Shoulder-Length">Shoulder-Length</option>
-                <option value="Butt-Length">Butt-Length</option>
-              </select>
-            </div>
-            <div className="flex space-x-4">
-              <div className="w-1/2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Price</label>
-                <input
-                  type="number"
-                  name="price"
-                  value={formData.price}
+
+        {/* Form Content */}
+        <div className="p-6">
+          <form onSubmit={handleSubmit}>
+            <div className="space-y-6">
+              {/* Service Length and Size - Side by Side */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Select service length
+                  </label>
+                  <select
+                    name="serviceLength"
+                    value={formData.serviceLength}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 bg-white text-gray-900"
+                  >
+                    <option value="">Select length</option>
+                    <option value="Short">Short</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Long">Long</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Select service size
+                  </label>
+                  <select
+                    name="serviceSize"
+                    value={formData.serviceSize}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 bg-white text-gray-900"
+                  >
+                    <option value="">Select size</option>
+                    <option value="Shoulder-Length">Shoulder-Length</option>
+                    <option value="Butt-Length">Butt-Length</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Price and Duration - Side by Side */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Price
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-0 top-0 bottom-0 flex items-center justify-center w-10 bg-gray-800 text-white text-sm font-medium rounded-l-md">
+                      $
+                    </div>
+                    <input
+                      type="number"
+                      name="price"
+                      value={formData.price}
+                      onChange={handleChange}
+                      className="w-full pl-12 pr-3 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                      placeholder="0.00"
+                      step="0.01"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Durations
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      name="duration"
+                      value={formData.duration}
+                      onChange={handleChange}
+                      className="w-full px-3 pr-12 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                      placeholder="0"
+                    />
+                    <div className="absolute right-3 top-0 bottom-0 flex items-center text-gray-500 text-sm">
+                      mins
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Add a description
+                </label>
+                <textarea
+                  name="description"
+                  value={formData.description}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="0.00"
+                  rows={4}
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 resize-none"
+                  placeholder="Enter description"
                 />
               </div>
-              <div className="w-1/2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Durations</label>
-                <input
-                  type="text"
-                  name="duration"
-                  value={formData.duration}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="0 mins"
-                />
+
+              {/* Image Upload Buttons */}
+              <div className="grid grid-cols-3 gap-4">
+                {[1, 2, 3].map((index) => (
+                  <div key={index} className="text-center">
+                    <button 
+                      type="button" 
+                      className="w-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg py-6 hover:border-gray-400 transition-colors"
+                    >
+                      <Plus className="w-6 h-6 text-gray-400 mb-2" />
+                      <span className="text-xs text-gray-500 font-medium">Add Images</span>
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end space-x-3 pt-4">
+                <button 
+                  type="button" 
+                  onClick={onClose} 
+                  className="px-6 py-2.5 bg-red-400 hover:bg-red-500 text-white text-sm font-medium rounded-md transition-colors"
+                >
+                  Clear All
+                </button>
+                <button 
+                  type="submit" 
+                  className="px-8 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-medium rounded-md transition-colors"
+                >
+                  Add
+                </button>
               </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Add a description</label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
-                placeholder="Enter description"
-              />
-            </div>
-            <div className="grid grid-cols-3 gap-4">
-              <button type="button" className="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg py-4">
-                <Plus className="w-6 h-6 text-gray-400" />
-              </button>
-              <button type="button" className="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg py-4">
-                <Plus className="w-6 h-6 text-gray-400" />
-              </button>
-              <button type="button" className="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg py-4">
-                <Plus className="w-6 h-6 text-gray-400" />
-              </button>
-            </div>
-            <div className="flex justify-end space-x-4 mt-6">
-              <button type="button" onClick={onClose} className="px-4 py-2 bg-red-500 text-white rounded-md">Clear All</button>
-              <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-md">Add</button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );

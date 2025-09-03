@@ -1,6 +1,7 @@
 import React, { use, useState } from 'react';
 import { ArrowLeft, Edit, Plus, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import AddServiceModal from './AddServiceModal';
 
 const AddIndependent = () => {
   const [formData, setFormData] = useState({
@@ -19,7 +20,9 @@ const AddIndependent = () => {
     ssn: '',
     fieldSsn: ''
   });
-  const navigate=useNavigate()
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const navigate = useNavigate()
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
@@ -43,12 +46,17 @@ const AddIndependent = () => {
     { id: 'passport', label: 'Passport', icon: FileText }
   ];
 
+  const handleAddService = (data) => {
+    // Logic to add new service
+    console.log('New service added:', data);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 font-[Rasa]">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center">
-          <ArrowLeft className="w-6 h-6 text-gray-600 mr-3 cursor-pointer" onClick={()=>navigate(-1)}/>
+          <ArrowLeft className="w-6 h-6 text-gray-600 mr-3 cursor-pointer" onClick={() => navigate(-1)} />
           <h1 className="text-xl font-medium text-gray-900">Add A New Independent Salon</h1>
         </div>
       </div>
@@ -69,7 +77,7 @@ const AddIndependent = () => {
         {/* Business Details */}
         <div className="bg-white rounded-lg p-6">
           <h2 className="text-xl font-medium text-gray-900 mb-6">Business Details</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -162,14 +170,12 @@ const AddIndependent = () => {
                 <span className="text-sm text-gray-500 mr-3">No</span>
                 <button
                   onClick={() => handleToggle('isMobileSalon')}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    formData.isMobileSalon ? 'bg-orange-500' : 'bg-gray-300'
-                  }`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${formData.isMobileSalon ? 'bg-orange-500' : 'bg-gray-300'
+                    }`}
                 >
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      formData.isMobileSalon ? 'translate-x-6' : 'translate-x-1'
-                    }`}
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${formData.isMobileSalon ? 'translate-x-6' : 'translate-x-1'
+                      }`}
                   />
                 </button>
               </div>
@@ -181,14 +187,12 @@ const AddIndependent = () => {
                 <span className="text-sm text-gray-500 mr-3">No</span>
                 <button
                   onClick={() => handleToggle('acceptCustomRequests')}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    formData.acceptCustomRequests ? 'bg-orange-500' : 'bg-gray-300'
-                  }`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${formData.acceptCustomRequests ? 'bg-orange-500' : 'bg-gray-300'
+                    }`}
                 >
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      formData.acceptCustomRequests ? 'translate-x-6' : 'translate-x-1'
-                    }`}
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${formData.acceptCustomRequests ? 'translate-x-6' : 'translate-x-1'
+                      }`}
                   />
                 </button>
               </div>
@@ -200,12 +204,15 @@ const AddIndependent = () => {
         <div className="bg-white rounded-lg p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-medium text-gray-900">Services</h2>
-            <button className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+            <button
+              className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+              onClick={() => setIsAddModalOpen(true)}
+            >
               <Plus className="w-4 h-4 mr-2" />
               Add A New Service
             </button>
           </div>
-          
+
           <div className="border-2 border-dashed border-gray-200 rounded-lg h-24 flex items-center justify-center">
             <span className="text-gray-400 text-sm">No services added yet</span>
           </div>
@@ -214,7 +221,7 @@ const AddIndependent = () => {
         {/* Portfolio Images */}
         <div className="bg-white rounded-lg p-6">
           <h2 className="text-xl font-medium text-gray-900 mb-6">Portfolio Images</h2>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {[1, 2, 3, 4, 5].map((index) => (
               <div
@@ -231,7 +238,7 @@ const AddIndependent = () => {
         {/* Business Information */}
         <div className="bg-white rounded-lg p-6">
           <h2 className="text-xl font-medium text-gray-900 mb-6">Business Information</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -290,7 +297,7 @@ const AddIndependent = () => {
         {/* Taxpayer Identification */}
         <div className="bg-white rounded-lg p-6">
           <h2 className="text-xl font-medium text-gray-900 mb-6">Taxpayer Identification</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -323,7 +330,7 @@ const AddIndependent = () => {
         {/* Licence & Verification Documents */}
         <div className="bg-white rounded-lg p-6">
           <h2 className="text-xl font-medium text-gray-900 mb-6">Licence & Verification Documents</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {documents.map((doc) => (
               <div key={doc.id} className="flex items-center space-x-3 border border-gray-200 rounded-lg  pl-2">
@@ -348,6 +355,8 @@ const AddIndependent = () => {
           </button>
         </div>
       </div>
+      {isAddModalOpen && <AddServiceModal onClose={() => setIsAddModalOpen(false)} onAdd={handleAddService} />}
+
     </div>
   );
 };
