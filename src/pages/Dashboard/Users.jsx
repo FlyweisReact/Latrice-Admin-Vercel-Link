@@ -166,7 +166,7 @@ const Users = () => {
   };
 
   return (
-    <div className="w-full bg-white min-h-screen">
+    <div className="w-full  min-h-screen">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 border-b border-gray-200">
         <h1 className="text-2xl lg:text-3xl font-[Rasa] font-semibold text-gray-900">

@@ -26,7 +26,7 @@ const data = [
 
 const Reports = () => {
   return (
-    <div className="w-full min-h-screen bg-white font-[Rasa] p-2">
+    <div className="w-full min-h-screen  font-[Rasa] p-2">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-3xl font-bold text-black">Reports</h1>
