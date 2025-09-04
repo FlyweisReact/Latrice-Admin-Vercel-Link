@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { FiLock } from 'react-icons/fi';
+import boyForgotPassword from '../../assets/images/CasualBoyForgotPass.png'
+import bgRec from '../../assets/images/YellowRectangleLoginPage.png';
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
@@ -21,48 +24,64 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-yellow-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#FFEBBA] flex items-center justify-center p-4 font-rasa">
       <div className="w-full max-w-4xl flex flex-col md:flex-row items-center justify-between">
         <div className="w-full md:w-1/2 p-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-8">Enter Your New Password</h1>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Password</label>
-              <div className="relative">
+          <form onSubmit={handleSubmit} className='space-y-6'>
+            {/* Password Input */}
+            <div className="relative">
+              <label
+                htmlFor="password"
+                className="absolute -top-3 left-6 bg-[#FFEBBA] px-2 text-sm font-medium text-[#2F2F2F]"
+              >
+                Password
+              </label>
+              <div className="flex items-center border border-[#2F2F2F80] rounded-full px-4 py-3">
+                <FiLock className="text-[#2F2F2F80] mr-2" size={18} />
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="enter password"
+                  id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-yellow-500"
+                  placeholder="enter your password"
+                  className="flex-1 bg-transparent text-[#2F2F2F] placeholder-[#2F2F2F80] focus:outline-none"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-3 text-gray-500"
+                  className="ml-2 text-[#2F2F2F80] hover:text-[#2F2F2F]"
                 >
-                  {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                  {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
                 </button>
               </div>
             </div>
-            <div className="mb-6">
-              <label className="block text-gray-700 mb-2">Re-Enter Password</label>
-              <div className="relative">
+
+            <div className="relative">
+              <label
+                htmlFor="password"
+                className="absolute -top-3 left-6 bg-[#FFEBBA] px-2 text-sm font-medium text-[#2F2F2F]"
+              >
+                Re Enter Password
+              </label>
+              <div className="flex items-center border border-[#2F2F2F80] rounded-full px-4 py-3">
+                <FiLock className="text-[#2F2F2F80] mr-2" size={18} />
                 <input
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="enter your password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-yellow-500"
+                  className="flex-1 bg-transparent text-[#2F2F2F] placeholder-[#2F2F2F80] focus:outline-none"
                   required
                 />
                 <button
                   type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-3 text-gray-500"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="ml-2 text-[#2F2F2F80] hover:text-[#2F2F2F]"
                 >
-                  {showConfirmPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                  {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
                 </button>
               </div>
             </div>
@@ -70,13 +89,13 @@ const ResetPassword = () => {
               Save
             </button>
           </form>
-          <p className="text-center text-gray-600">
-            <button onClick={() => navigate('/')} className="text-gray-800 hover:underline">Back to Log In</button>
+          <p className="text-start text-gray-600">
+            <button onClick={() => navigate('/')} className="text-[#2F2F2F] font-bold hover:underline">Back to Log In</button>
           </p>
         </div>
-        <div className="w-full md:w-1/2 relative">
-          <div className="absolute top-0 right-0 h-96 w-96 bg-yellow-400 rounded-bl-full"></div>
-          <img src="/path/to/reset-illustration.png" alt="Illustration" className="relative z-10 mx-auto" /> {/* Replace with actual image */}
+        <div className="-full md:w-1/2 relative order-1 md:order-2 hidden md:block">
+          <img src={bgRec} alt="Background Rectangle" className="absolute top-10 left-5 h-[600px] w-[460px] object-fill" />
+          <img src={boyForgotPassword} alt="Illustration" className="relative z-10 w-[350px] mx-auto mt-10 top-20 -left-20 md:mt-0" /> {/* Replace with actual image */}
         </div>
       </div>
     </div>
