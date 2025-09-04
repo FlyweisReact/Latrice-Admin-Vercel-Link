@@ -25,8 +25,20 @@ import {
   FaHeadset,
   FaFileContract,
   FaSignOutAlt,
+  FaRegFileAlt,
 } from "react-icons/fa";
 import NotificationOffcanvas from "../../NotificationOffcanvas";
+import DashboardIcon from '../../../assets/Icons/dashboardIcon.png'
+import SalonIcon from '../../../assets/Icons/SalonsIcon.png'
+import IndependentIcon from '../../../assets/Icons/IndependentsIcon.png'
+import UsersIcon from '../../../assets/Icons/UsersIcon.png'
+import MonitorHiringIcon from '../../../assets/Icons/MonitorIcon.png'
+import DisputeIcon from '../../../assets/Icons/DisputeIcon.png'
+import ContentIcon from '../../../assets/Icons/ContentIcon.png'
+import CommissionIcon from '../../../assets/Icons/ComissionIcon.png'
+import PayoutIcon from '../../../assets/Icons/PayoutIcon.png'
+import PromotionIcon from '../../../assets/Icons/PromotionIcon.png'
+import PushNotificationIcon from '../../../assets/Icons/NotificationsIcon.png'
 
 const AdminDashboardLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -37,22 +49,22 @@ const AdminDashboardLayout = () => {
   const navigate = useNavigate();
 
   const navItems = [
-    { name: "Dashboard", icon: <FaHome />, path: "/dashboard" },
-    { name: "Salons", icon: <FaStore />, path: "/dashboard/salons" },
-    { name: "Independents", icon: <FaUserTie />, path: "/dashboard/independents" },
-    { name: "Users", icon: <FaUsers />, path: "/dashboard/users" },
-    { name: "Monitor Hiring", icon: <FaEye />, path: "/dashboard/monitor-hiring" },
-    { name: "Dispute Resolution", icon: <FaGavel />, path: "/dashboard/dispute-resolution" },
-    { name: "Content Management System", icon: <FaCog />, path: "/dashboard/content-management" },
-    { name: "Commission and Revenue Management", icon: <FaMoneyBillWave />, path: "/dashboard/commission-revenue" },
-    { name: "Payout Management", icon: <FaCreditCard />, path: "/dashboard/payout-management" },
-    { name: "Create Promotions", icon: <FaBullhorn />, path: "/dashboard/create-promotions" },
-    { name: "Push Notification", icon: <FaBellSolid />, path: "/dashboard/push-notification" },
-    { name: "Reports", icon: <FaFileAlt />, path: "/dashboard/reports" },
-    { name: "Monitor Feedback", icon: <FaComments />, path: "/dashboard/monitor-feedback" },
-    { name: "Upload Blogs", icon: <FaBlog />, path: "/dashboard/upload-blogs" },
-    { name: "Customer Support", icon: <FaHeadset />, path: "/dashboard/customer-support" },
-    { name: "Add Your Policies", icon: <FaFileContract />, path: "/dashboard/add-policies" },
+   { name: "Dashboard", icon: <img src={DashboardIcon} alt="Dashboard" className="w-6 h-6" />, path: "/dashboard" },
+    { name: "Salons", icon: <img src={SalonIcon} alt="Salons" className="w-6 h-6" />, path: "/dashboard/salons" },
+    { name: "Independents", icon: <img src={IndependentIcon} alt="Independents" className="w-6 h-6" />, path: "/dashboard/independents" },
+    { name: "Users", icon: <img src={UsersIcon} alt="Users" className="w-6 h-6" />, path: "/dashboard/users" },
+    { name: "Monitor Hiring", icon: <img src={MonitorHiringIcon} alt="Monitor Hiring" className="w-6 h-6" />, path: "/dashboard/monitor-hiring" },
+    { name: "Dispute Resolution", icon: <img src={DisputeIcon} alt="Dispute Resolution" className="w-6 h-6" />, path: "/dashboard/dispute-resolution" },
+    { name: "Content Management System", icon: <img src={ContentIcon} alt="Content Management" className="w-6 h-6" />, path: "/dashboard/content-management" },
+    { name: "Commission and Revenue Management", icon: <img src={CommissionIcon} alt="Commission" className="w-6 h-6" />, path: "/dashboard/commission-revenue" },
+    { name: "Payout Management", icon: <img src={PayoutIcon} alt="Payout" className="w-6 h-6" />, path: "/dashboard/payout-management" },
+    { name: "Create Promotions", icon: <img src={PromotionIcon} alt="Promotions" className="w-6 h-6" />, path: "/dashboard/create-promotions" },
+    { name: "Push Notification", icon: <img src={PushNotificationIcon} alt="Push Notification" className="w-6 h-6" />, path: "/dashboard/push-notification" },
+    { name: "Reports", icon: <FaRegFileAlt className="text-black" />, path: "/dashboard/reports" },
+    { name: "Monitor Feedback", icon: <FaComments className="text-black" />, path: "/dashboard/monitor-feedback" },
+    { name: "Upload Blogs", icon: <FaBlog className="text-black" />, path: "/dashboard/upload-blogs" },
+    { name: "Customer Support", icon: <FaHeadset className="text-black" />, path: "/dashboard/customer-support" },
+    { name: "Add Your Policies", icon: <FaFileContract className="text-black" />, path: "/dashboard/add-policies" },
   ];
 
   useEffect(() => {
@@ -155,7 +167,7 @@ const AdminDashboardLayout = () => {
             className="flex items-center px-4 py-3 text-[20px] font-[Rasa] hover:bg-gray-800 rounded-l-full w-full"
           >
             <div className="w-8 h-8 rounded-full bg-yellow-400 flex justify-center items-center mr-3">
-              <FaSignOutAlt />
+              <FaSignOutAlt className="text-black" />
             </div>
             <span>Log Out</span>
           </button>
