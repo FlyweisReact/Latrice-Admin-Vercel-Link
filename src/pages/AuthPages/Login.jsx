@@ -110,18 +110,19 @@ const SignIn = () => {
         </div>
 
         {/* Right Side - Illustration */}
-        <div className="w-full md:w-1/2 relative hidden md:block">
+        <div className="w-full md:w-1/2 relative hidden md:block h-full min-h-screen">
           <img
             src={bgRec}
             alt="Background Rectangle"
-            className="absolute -top-10 right-0 h-[600px] w-[400px] object-fill"
+            className="absolute bottom-0 right-0 h-[700px] w-[450px] object-fill"
           />
           <img
             src={boy}
             alt="Boy Illustration"
-            className="relative top-28 z-10 w-[300px] md:w-[400px] mx-auto mt-10 md:mt-0"
+            className="absolute top-80 right-36 z-10 w-[300px] md:w-[400px]"
           />
         </div>
+
       </div>
     </div>
   );

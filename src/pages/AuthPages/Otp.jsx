@@ -67,9 +67,9 @@ const Otp = () => {
             <button onClick={() => navigate('/')} className="text-[#2F2F2F] font-bold hover:underline">Back to Log In</button>
           </p>
         </div>
-        <div className="-full md:w-1/2 relative order-1 md:order-2 hidden md:block">
-          <img src={bgRec} alt="Background Rectangle" className="absolute top-10 left-5 h-[600px] w-[460px] object-fill" />
-          <img src={boyForgotPassword} alt="Illustration" className="relative z-10 w-[350px] mx-auto mt-10 top-20 -left-20 md:mt-0" /> {/* Replace with actual image */}
+        <div className="w-full md:w-1/2 relative hidden md:block h-full min-h-screen">
+          <img src={bgRec} alt="Background Rectangle" className="absolute bottom-0 right-0 h-[700px] w-[450px] object-fill" />
+          <img src={boyForgotPassword} alt="Illustration" className="absolute top-80 right-28 z-10 w-[300px] md:w-[400px]" /> {/* Replace with actual image */}
         </div>
       </div>
     </div>

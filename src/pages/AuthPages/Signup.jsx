@@ -116,9 +116,9 @@ const Signup = () => {
             Already have an account? <button onClick={() => navigate('/')} className="font-bold text-[20px] hover:underline">Log In</button>
           </p>
         </div>
-        <div className="w-full md:w-1/2 relative order-1 md:order-2 hidden md:block">
-          <img src={bgRec} alt="Background Rectangle" className="absolute top-0 left-0 h-[600px] w-[460px] object-fill" />
-          <img src={boy} alt="Boy Illustration" className="relative z-10 w-[500px] mx-auto mt-10 top-20 left-12 md:mt-0" />
+        <div className="w-full md:w-1/2 min-h-screen h-full relative order-1 md:order-2 hidden md:block">
+          <img src={bgRec} alt="Background Rectangle" className="absolute bottom-0 left-0 h-[700px] w-[450px] object-fill" />
+          <img src={boy} alt="Boy Illustration" className="absolute top-70  z-10 w-[700px] left-8" />
         </div>
       </div>
     </div>
