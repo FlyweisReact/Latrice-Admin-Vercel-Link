@@ -36,7 +36,6 @@ const AdminDashboardLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Sidebar items
   const navItems = [
     { name: "Dashboard", icon: <FaHome />, path: "/dashboard" },
     { name: "Salons", icon: <FaStore />, path: "/dashboard/salons" },
@@ -56,7 +55,6 @@ const AdminDashboardLayout = () => {
     { name: "Add Your Policies", icon: <FaFileContract />, path: "/dashboard/add-policies" },
   ];
 
-  // Handle window resize
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -76,7 +74,6 @@ const AdminDashboardLayout = () => {
     navigate("/");
   };
 
-  // Check if the current route is under specific dashboard paths or their subroutes
   const isSalonsActive = location.pathname.startsWith("/dashboard/salons");
   const isIndependentsActive = location.pathname.startsWith("/dashboard/independents");
   const isUsersActive = location.pathname.startsWith("/dashboard/users");
@@ -85,7 +82,7 @@ const AdminDashboardLayout = () => {
   const isDisputeActive = location.pathname.startsWith("/dashboard/dispute-resolution");
 
   return (
-    <div className="flex h-screen bg-white relative overflow-x-hidden">
+    <div className="flex h-screen bg-white relative overflow-x-hidden font-rasa">
       {/* Mobile Overlay */}
       {isMobileMenuOpen && windowWidth < 768 && (
         <div
@@ -97,9 +94,8 @@ const AdminDashboardLayout = () => {
       {/* Sidebar */}
       <aside
         id="mobile-sidebar"
-        className={`bg-[#2F2F2F] text-white w-[230px] sm:w-[300px] fixed h-full z-40 transition-all duration-300 ${
-          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 flex flex-col`}
+        className={`bg-[#2F2F2F] text-white w-[230px] sm:w-[300px] fixed h-full z-40 transition-all duration-300 ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } md:translate-x-0 flex flex-col`}
       >
         <div className="p-4 md:block flex items-center justify-between w-full">
           <h1 className="text-[40px] font-bold text-[#FFE6D8] font-[Rasa] text-center">
@@ -120,31 +116,29 @@ const AdminDashboardLayout = () => {
               <li key={item.name} className="mb-2 pl-4 pr-1">
                 <Link
                   to={item.path}
-                  className={`flex items-center px-4 py-3 text-[20px] font-[Rasa] transition-colors duration-200 rounded-[15px] ${
-                    (location.pathname === item.path ||
+                  className={`flex items-center px-4 py-3 text-[20px] font-[Rasa] transition-colors duration-200 rounded-[15px] ${(location.pathname === item.path ||
+                    (item.name === "Salons" && isSalonsActive) ||
+                    (item.name === "Independents" && isIndependentsActive) ||
+                    (item.name === "Users" && isUsersActive) ||
+                    (item.name === "Create Promotions" && isCreatePromotionsActive) ||
+                    (item.name === "Customer Support" && isCustomerSupportActive) ||
+                    (item.name === "Dispute Resolution" && isDisputeActive))
+                    ? "bg-[#FFEBBA] text-black"
+                    : "hover:bg-gray-800"
+                    }`}
+                  onClick={() => windowWidth < 768 && setIsMobileMenuOpen(false)}
+                >
+                  <div
+                    className={`w-8 h-8 rounded-full flex justify-center items-center mr-3 ${(location.pathname === item.path ||
                       (item.name === "Salons" && isSalonsActive) ||
                       (item.name === "Independents" && isIndependentsActive) ||
                       (item.name === "Users" && isUsersActive) ||
                       (item.name === "Create Promotions" && isCreatePromotionsActive) ||
                       (item.name === "Customer Support" && isCustomerSupportActive) ||
                       (item.name === "Dispute Resolution" && isDisputeActive))
-                      ? "bg-[#FFEBBA] text-black"
-                      : "hover:bg-gray-800"
-                  }`}
-                  onClick={() => windowWidth < 768 && setIsMobileMenuOpen(false)}
-                >
-                  <div
-                    className={`w-8 h-8 rounded-full flex justify-center items-center mr-3 ${
-                      (location.pathname === item.path ||
-                        (item.name === "Salons" && isSalonsActive) ||
-                        (item.name === "Independents" && isIndependentsActive) ||
-                        (item.name === "Users" && isUsersActive) ||
-                        (item.name === "Create Promotions" && isCreatePromotionsActive) ||
-                        (item.name === "Customer Support" && isCustomerSupportActive) ||
-                        (item.name === "Dispute Resolution" && isDisputeActive))
-                        ? "bg-white"
-                        : "bg-[#FFCC4E]"
-                    }`}
+                      ? "bg-white"
+                      : "bg-[#FFCC4E]"
+                      }`}
                   >
                     {item.icon}
                   </div>
@@ -171,30 +165,36 @@ const AdminDashboardLayout = () => {
       {/* Main Content */}
       <div className="flex-1 md:ml-[300px] w-full">
         {/* Header */}
-        <header className="bg-[#2F2F2F] text-white px-4 py-3 flex items-center justify-between shadow-md fixed top-0 right-0 left-0 md:left-[300px] z-30">
-          <button
-            data-menu-toggle
-            className="md:hidden mr-2 text-white focus:outline-none"
-            onClick={toggleMobileMenu}
-            aria-label="Open menu"
-          >
-            <FiMenu size={24} />
-          </button>
+        <header className="bg-[#2F2F2F] text-white px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between shadow-md fixed top-0 right-0 left-0 md:left-[300px] z-30 gap-3">
+          {/* Left: Menu + Search */}
+          <div className="flex items-center w-full md:w-auto flex-1">
+            <button
+              data-menu-toggle
+              className="md:hidden mr-3 text-white focus:outline-none"
+              onClick={toggleMobileMenu}
+              aria-label="Open menu"
+            >
+              <FiMenu size={24} />
+            </button>
 
-          <div className="flex-1 flex items-center max-w-xl">
-            <div className="flex w-full bg-white rounded-md overflow-hidden">
+            {/* Search Bar */}
+            <div className="flex items-center w-full xl:w-[600px] bg-white rounded-md overflow-hidden px-3 font-rasa">
+              <FiSearch className="text-black text-lg" />
               <input
                 type="search"
                 placeholder="Search here..."
-                className="w-full px-4 py-2 text-black focus:outline-none"
+                className="w-full px-3 py-2 text-black focus:outline-none"
               />
-              <button className="bg-[#FBC02D] px-5 flex items-center justify-center">
-                <FiSearch className="text-black text-lg" />
-              </button>
             </div>
+
+            {/* Search button only for desktop */}
+            <button className="hidden md:flex bg-[#FBC02D] py-3 px-8 ml-3 items-center justify-center rounded-lg">
+              <FiSearch className="text-black text-lg" />
+            </button>
           </div>
 
-          <div className="flex items-center space-x-4 ml-6">
+          {/* Right: Icons + Profile */}
+          <div className="flex items-center justify-between md:justify-end w-full md:w-auto space-x-4">
             <button
               onClick={() => navigate("/dashboard/settings")}
               className="w-9 h-9 flex items-center justify-center rounded-md bg-white"
@@ -213,9 +213,10 @@ const AdminDashboardLayout = () => {
             />
 
             <div className="flex items-center">
-              <span className="mr-3 font-medium">Leo Aminoff</span>
+              {/* Name hidden on mobile */}
+              <span className="hidden md:inline mr-3 font-medium">Leo Aminoff</span>
               <img
-                src="/path/to/avatar.jpg"
+                src="https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=80&h=60&fit=crop"
                 alt="Avatar"
                 className="w-9 h-9 rounded-full object-cover"
               />
@@ -223,7 +224,8 @@ const AdminDashboardLayout = () => {
           </div>
         </header>
 
-        <main className="p-4 pt-20 md:pt-24 w-full overflow-x-hidden bg-[#FAF9F6]">
+
+        <main className="p-4 pt-28 md:pt-24 w-full overflow-x-hidden bg-[#FAF9F6]">
           <Outlet />
         </main>
       </div>
