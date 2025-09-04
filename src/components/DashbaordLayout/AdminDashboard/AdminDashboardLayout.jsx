@@ -225,7 +225,7 @@ const AdminDashboardLayout = () => {
         </header>
 
 
-        <main className="p-4 pt-28 md:pt-24 w-full overflow-x-hidden bg-[#FAF9F6]">
+        <main className="p-4 pt-28 md:pt-24 w-full overflow-x-hidden bg-[#FAF9F6] min-h-screen">
           <Outlet />
         </main>
       </div>

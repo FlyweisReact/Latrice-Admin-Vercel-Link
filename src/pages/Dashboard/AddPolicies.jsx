@@ -6,15 +6,21 @@ import TermsOfServiceTab from "../../components/AddPolicies/TermsOfServiceTab";
 import SupportTab from "../../components/AddPolicies/SupportTab";
 import CookiesTab from "../../components/AddPolicies/CookiesTab";
 import FAQsTab from "../../components/AddPolicies/FAQsTab";
+import AboutUsContent from "../../components/AddPolicies/AboutUsContent";
+import PrivacyPolicyContent from "../../components/AddPolicies/PrivacyPolicyContent";
+import TermsOfServiceContent from "../../components/AddPolicies/TermsOfServiceContent";
+import SupportContent from "../../components/AddPolicies/SupportContent";
+import CookiesContent from "../../components/AddPolicies/CookiesContent";
+import FAQsContent from "../../components/AddPolicies/FAQsContent";
 
 const AddPolicies = () => {
   const tabs = [
-    { name: "About Us", component: AboutUsTab },
-    { name: "Privacy Policy", component: PrivacyPolicyTab },
-    { name: "Terms Of Service", component: TermsOfServiceTab },
-    { name: "Support", component: SupportTab },
-    { name: "Cookies", component: CookiesTab },
-    { name: "FAQs", component: FAQsTab },
+    { name: "About Us", tabComponent: AboutUsTab, contentComponent: AboutUsContent },
+    { name: "Privacy Policy", tabComponent: PrivacyPolicyTab, contentComponent: PrivacyPolicyContent },
+    { name: "Terms Of Service", tabComponent: TermsOfServiceTab, contentComponent: TermsOfServiceContent },
+    { name: "Support", tabComponent: SupportTab, contentComponent: SupportContent },
+    { name: "Cookies", tabComponent: CookiesTab, contentComponent: CookiesContent },
+    { name: "FAQs", tabComponent: FAQsTab, contentComponent: FAQsContent },
   ];
 
   // Initialize activeTab from URL query parameter or default to "About Us"
@@ -52,6 +58,8 @@ const AddPolicies = () => {
     handleClosePopup();
   };
 
+  const ActiveContent = tabs.find((tab) => tab.name === activeTab)?.contentComponent;
+
   return (
     <div className="w-full p-2 font-[Rasa]">
       {/* Header Section */}
@@ -69,7 +77,7 @@ const AddPolicies = () => {
 
       {/* Tabs Section */}
       <div className="flex flex-wrap w-full bg-[#D9D9D9] rounded-[80px] overflow-hidden mb-6 p-1 justify-center sm:justify-start gap-2 sm:gap-0 sm:h-[60px]">
-        {tabs.map(({ name, component: TabComponent }) => (
+        {tabs.map(({ name, tabComponent: TabComponent }) => (
           <TabComponent
             key={name}
             isActive={activeTab === name}
@@ -93,15 +101,7 @@ const AddPolicies = () => {
             </button>
           </div>
         </div>
-        <p className="text-sm sm:text-base text-[#2F2F2F80] leading-relaxed">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages
-        </p>
+        {ActiveContent && <ActiveContent />}
       </div>
 
       {/* Popup */}
