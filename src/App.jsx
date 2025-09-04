@@ -49,6 +49,9 @@ const ViewUser = lazy(() => import("./components/Users/ViewUser"));
 // New Customer Support Action Pages
 const ViewSupportTicket = lazy(() => import("./components/CustomerSupport/ViewSupportTicket"));
 
+// New Dispute Action Pages
+const ViewDispute = lazy(() => import("./components/DisputeResolution/ViewDispute"));
+
 const Settings = lazy(() => import("./pages/Dashboard/Settings"));
 
 const LoadingFallback = () => (
@@ -95,6 +98,7 @@ export default function App() {
 
             <Route path="monitor-hiring" element={<MonitorHiring />} />
             <Route path="dispute-resolution" element={<DisputeResolution />} />
+            <Route path="dispute-resolution/view/:id" element={<ViewDispute />} />
             <Route path="content-management" element={<ContentManagement />} />
             <Route path="commission-revenue" element={<CommissionRevenue />} />
             <Route path="payout-management" element={<PayoutManagement />} />

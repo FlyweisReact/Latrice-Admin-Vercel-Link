@@ -1,89 +1,109 @@
 import React, { useState } from 'react';
 import { Edit, Eye, Trash2, Download, ChevronDown, Plus, Monitor } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const DisputeResolution = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortBy, setSortBy] = useState('name');
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [selectedSalonId, setSelectedSalonId] = useState(null);
+  
+  const handleDeleteClick = (id) => {
+    setSelectedSalonId(id);
+    setShowDeletePopup(true);
+  };
 
-  const salonsData = [
+  const handleDeleteConfirm = () => {
+    setSalonsData((categoriesData) =>
+      categoriesData.filter((salon) => salon.id !== selectedSalonId)
+    );
+    setShowDeletePopup(false);
+    setSelectedSalonId(null);
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeletePopup(false);
+    setSelectedSalonId(null);
+  };
+  const disputesData = [
     {
       id: 1,
-      fullName: 'Alyvia Kelley',
+      fullName: 'Wilson George',
       shopName: 'Sexy Braids',
-      joinedOn: '06/06/2023',
-      status: 'Active',
+      disputeDate: '06/06/2023',
+      status: 'Pending',
       blocked: false
     },
     {
       id: 2,
       fullName: 'Jaiden Nixon',
       shopName: 'Nixon Day Spa',
-      joinedOn: '09/10/2023',
-      status: 'Active',
+      disputeDate: '09/10/2023',
+      status: 'Pending',
       blocked: false
     },
     {
       id: 3,
       fullName: 'Ace Foley',
       shopName: 'Ace Spa',
-      joinedOn: '12/22/2023',
-      status: 'Active',
+      disputeDate: '12/22/2023',
+      status: 'Resolved',
       blocked: false
     },
     {
       id: 4,
       fullName: 'Nikolai Schmidt',
       shopName: 'Sc Barber Shop',
-      joinedOn: '03/02/2023',
-      status: 'Inactive',
+      disputeDate: '03/02/2023',
+      status: 'Rejected',
       blocked: false
     },
     {
       id: 5,
       fullName: 'Clayton Charles',
       shopName: 'CC Massage',
-      joinedOn: '10/10/2023',
-      status: 'Active',
+      disputeDate: '10/10/2023',
+      status: 'Pending',
       blocked: false
     },
     {
       id: 6,
       fullName: 'Prince Chen',
       shopName: 'Prince Barber Shop',
-      joinedOn: '07/05/2023',
-      status: 'Active',
+      disputeDate: '07/05/2023',
+      status: 'Pending',
       blocked: false
     },
     {
       id: 7,
       fullName: 'Reece Duran',
       shopName: 'RD Skin Care',
-      joinedOn: '05/06/2023',
-      status: 'Active',
+      disputeDate: '05/06/2023',
+      status: 'Resolved',
       blocked: false
     },
     {
       id: 8,
       fullName: 'Anastasia Mcdaniel',
       shopName: 'A Nail Shop',
-      joinedOn: '02/01/2023',
-      status: 'Inactive',
+      disputeDate: '02/01/2023',
+      status: 'Rejected',
       blocked: false
     },
     {
       id: 9,
       fullName: 'Melvin Boyle',
       shopName: 'Melvin Hair Removal',
-      joinedOn: '08/03/2023',
-      status: 'Inactive',
+      disputeDate: '08/03/2023',
+      status: 'Rejected',
       blocked: false
     },
     {
       id: 10,
       fullName: 'Kailee Thomas',
       shopName: 'Thomas Skin Care',
-      joinedOn: '11/08/2023',
+      disputeDate: '11/08/2023',
       status: 'Blocked',
       blocked: true
     },
@@ -91,15 +111,15 @@ const DisputeResolution = () => {
       id: 11,
       fullName: 'Chance Carder',
       shopName: 'Chance Skin Care',
-      joinedOn: '11/08/2023',
-      status: 'Inactive',
+      disputeDate: '11/08/2023',
+      status: 'Rejected',
       blocked: false
     },
     {
       id: 12,
       fullName: 'Lincoln Baptista',
       shopName: 'Baptista Barber Shop',
-      joinedOn: '11/08/2023',
+      disputeDate: '11/08/2023',
       status: 'Blocked',
       blocked: true
     },
@@ -107,18 +127,20 @@ const DisputeResolution = () => {
       id: 13,
       fullName: 'James Dokidis',
       shopName: 'James Day Spa',
-      joinedOn: '11/08/2023',
-      status: 'Active',
+      disputeDate: '11/08/2023',
+      status: 'Pending',
       blocked: false
     }
   ];
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'Active':
+      case 'Pending':
+        return 'text-yellow-600';
+      case 'Resolved':
         return 'text-green-600';
-      case 'Inactive':
-        return 'text-gray-600';
+      case 'Rejected':
+        return 'text-red-600';
       case 'Blocked':
         return 'text-red-600';
       default:
@@ -128,10 +150,12 @@ const DisputeResolution = () => {
 
   const getStatusDot = (status) => {
     switch (status) {
-      case 'Active':
+      case 'Pending':
+        return 'bg-yellow-500';
+      case 'Resolved':
         return 'bg-green-500';
-      case 'Inactive':
-        return 'bg-gray-500';
+      case 'Rejected':
+        return 'bg-red-500';
       case 'Blocked':
         return 'bg-red-500';
       default:
@@ -139,18 +163,18 @@ const DisputeResolution = () => {
     }
   };
 
-  const totalPages = Math.ceil(salonsData.length / itemsPerPage);
+  const totalPages = Math.ceil(disputesData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentData = salonsData.slice(startIndex, endIndex);
+  const currentData = disputesData.slice(startIndex, endIndex);
 
   const handleToggleBlock = (id) => {
     // Toggle block functionality would go here
-    console.log('Toggle block for salon:', id);
+    console.log('Toggle block for dispute:', id);
   };
 
   return (
-    <div className="w-full  min-h-screen">
+    <div className="w-full min-h-screen">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 border-b border-gray-200">
         <h1 className="text-2xl lg:text-3xl font-[Rasa] font-semibold text-gray-900">
@@ -174,7 +198,7 @@ const DisputeResolution = () => {
                 Shop Name
               </th>
               <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider min-w-[120px]">
-                Joined On
+                Dispute Date
               </th>
               <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider min-w-[100px]">
                 Status
@@ -190,8 +214,8 @@ const DisputeResolution = () => {
 
           {/* Table Body */}
           <tbody className="bg-white divide-y divide-gray-200">
-            {currentData.map((salon, index) => (
-              <tr key={salon.id} className="hover:bg-gray-50 transition-colors">
+            {currentData.map((dispute, index) => (
+              <tr key={dispute.id} className="hover:bg-gray-50 transition-colors">
                 {/* Row Number */}
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-900">
                   {startIndex + index + 1}
@@ -199,25 +223,25 @@ const DisputeResolution = () => {
 
                 {/* Full Name */}
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-900">
-                  {salon.fullName}
+                  {dispute.fullName}
                 </td>
 
                 {/* Shop Name */}
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-900">
-                  {salon.shopName}
+                  {dispute.shopName}
                 </td>
 
-                {/* Joined On */}
+                {/* Dispute Date */}
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-600">
-                  {salon.joinedOn}
+                  {dispute.disputeDate}
                 </td>
 
                 {/* Status */}
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${getStatusDot(salon.status)}`}></div>
-                    <span className={`text-sm font-[Rasa] font-medium ${getStatusColor(salon.status)}`}>
-                      {salon.status}
+                    <div className={`w-2 h-2 rounded-full ${getStatusDot(dispute.status)}`}></div>
+                    <span className={`text-sm font-[Rasa] font-medium ${getStatusColor(dispute.status)}`}>
+                      {dispute.status}
                     </span>
                   </div>
                 </td>
@@ -226,18 +250,16 @@ const DisputeResolution = () => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-[Rasa] text-gray-700">
-                      {salon.blocked ? 'Block' : 'Unblock'}
+                      {dispute.blocked ? 'Unblock' : 'Block'}
                     </span>
                     <button
-                      onClick={() => handleToggleBlock(salon.id)}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                        salon.blocked ? 'bg-red-500' : 'bg-green-500'
-                      }`}
+                      onClick={() => handleToggleBlock(dispute.id)}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${dispute.blocked ? 'bg-red-500' : 'bg-green-500'
+                        }`}
                     >
                       <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                          salon.blocked ? 'translate-x-6' : 'translate-x-1'
-                        }`}
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${dispute.blocked ? 'translate-x-6' : 'translate-x-1'
+                          }`}
                       />
                     </button>
                   </div>
@@ -246,17 +268,14 @@ const DisputeResolution = () => {
                 {/* Actions */}
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-2">
-                    <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50">
-                      <Edit className="w-4 h-4" />
-                    </button>
-                    <button className="p-2 text-gray-400 hover:text-green-600 transition-colors rounded-lg hover:bg-green-50">
+                    <Link
+                      to={`/dashboard/dispute-resolution/view/${dispute.id}`}
+                      className="p-2 text-gray-400 hover:text-green-600 transition-colors rounded-lg hover:bg-green-50"
+                    >
                       <Eye className="w-4 h-4" />
-                    </button>
+                    </Link>
                     <button className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50">
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                    <button className="p-2 text-gray-400 hover:text-purple-600 transition-colors rounded-lg hover:bg-purple-50">
-                      <Download className="w-4 h-4" />
+                      <Trash2 className="w-4 h-4" onClick={() => handleDeleteClick(dispute.id)}/>
                     </button>
                   </div>
                 </td>
@@ -296,16 +315,15 @@ const DisputeResolution = () => {
           {[...Array(Math.min(5, totalPages))].map((_, index) => {
             const pageNumber = index + 1;
             const isActive = pageNumber === currentPage;
-            
+
             return (
               <button
                 key={pageNumber}
                 onClick={() => setCurrentPage(pageNumber)}
-                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${
-                  isActive
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'text-gray-600 border-gray-300 hover:bg-gray-100'
-                }`}
+                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${isActive
+                  ? 'bg-blue-600 text-white border-blue-600'
+                  : 'text-gray-600 border-gray-300 hover:bg-gray-100'
+                  }`}
               >
                 {pageNumber}
               </button>
@@ -317,11 +335,10 @@ const DisputeResolution = () => {
               <span className="px-2 text-sm font-[Rasa] text-gray-500">...</span>
               <button
                 onClick={() => setCurrentPage(totalPages)}
-                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${
-                  currentPage === totalPages
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'text-gray-600 border-gray-300 hover:bg-gray-100'
-                }`}
+                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${currentPage === totalPages
+                  ? 'bg-blue-600 text-white border-blue-600'
+                  : 'text-gray-600 border-gray-300 hover:bg-gray-100'
+                  }`}
               >
                 {totalPages}
               </button>
@@ -338,8 +355,29 @@ const DisputeResolution = () => {
           </button>
         </div>
       </div>
+      {showDeletePopup && (
+        <div className="fixed inset-0 bg-black/30 bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-[300px] text-center">
+            <h2 className="text-xl font-[Rasa] font-medium text-gray-900 mb-4">Are you sure?</h2>
+            <div className="flex justify-around">
+              <button
+                onClick={handleDeleteCancel}
+                className="px-4 py-2 bg-gray-400 text-white rounded-full hover:bg-gray-500 transition-colors"
+              >
+                No, Cancel
+              </button>
+              <button
+                onClick={handleDeleteConfirm}
+                className="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default  DisputeResolution;
+export default DisputeResolution;

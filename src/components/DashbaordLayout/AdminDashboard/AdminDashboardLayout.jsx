@@ -82,6 +82,7 @@ const AdminDashboardLayout = () => {
   const isUsersActive = location.pathname.startsWith("/dashboard/users");
   const isCreatePromotionsActive = location.pathname.startsWith("/dashboard/create-promotions");
   const isCustomerSupportActive = location.pathname.startsWith("/dashboard/customer-support");
+  const isDisputeActive = location.pathname.startsWith("/dashboard/dispute-resolution");
 
   return (
     <div className="flex h-screen bg-white relative overflow-x-hidden">
@@ -125,7 +126,8 @@ const AdminDashboardLayout = () => {
                       (item.name === "Independents" && isIndependentsActive) ||
                       (item.name === "Users" && isUsersActive) ||
                       (item.name === "Create Promotions" && isCreatePromotionsActive) ||
-                      (item.name === "Customer Support" && isCustomerSupportActive))
+                      (item.name === "Customer Support" && isCustomerSupportActive) ||
+                      (item.name === "Dispute Resolution" && isDisputeActive))
                       ? "bg-[#FFEBBA] text-black"
                       : "hover:bg-gray-800"
                   }`}
@@ -138,7 +140,8 @@ const AdminDashboardLayout = () => {
                         (item.name === "Independents" && isIndependentsActive) ||
                         (item.name === "Users" && isUsersActive) ||
                         (item.name === "Create Promotions" && isCreatePromotionsActive) ||
-                        (item.name === "Customer Support" && isCustomerSupportActive))
+                        (item.name === "Customer Support" && isCustomerSupportActive) ||
+                        (item.name === "Dispute Resolution" && isDisputeActive))
                         ? "bg-white"
                         : "bg-[#FFCC4E]"
                     }`}
