@@ -49,7 +49,7 @@ const AdminDashboardLayout = () => {
   const navigate = useNavigate();
 
   const navItems = [
-   { name: "Dashboard", icon: <img src={DashboardIcon} alt="Dashboard" className="w-6 h-6" />, path: "/dashboard" },
+    { name: "Dashboard", icon: <img src={DashboardIcon} alt="Dashboard" className="w-6 h-6" />, path: "/dashboard" },
     { name: "Salons", icon: <img src={SalonIcon} alt="Salons" className="w-6 h-6" />, path: "/dashboard/salons" },
     { name: "Independents", icon: <img src={IndependentIcon} alt="Independents" className="w-6 h-6" />, path: "/dashboard/independents" },
     { name: "Users", icon: <img src={UsersIcon} alt="Users" className="w-6 h-6" />, path: "/dashboard/users" },
@@ -219,10 +219,6 @@ const AdminDashboardLayout = () => {
             >
               <FiBell className="text-red-500" />
             </button>
-            <NotificationOffcanvas
-              showNotification={showNotification}
-              setShowNotification={setShowNotification}
-            />
 
             <div className="flex items-center">
               {/* Name hidden on mobile */}
@@ -236,6 +232,10 @@ const AdminDashboardLayout = () => {
           </div>
         </header>
 
+        <NotificationOffcanvas
+          showNotification={showNotification}
+          setShowNotification={setShowNotification}
+        />
 
         <main className="p-4 pt-28 md:pt-24 w-full overflow-x-hidden bg-[#FAF9F6] min-h-screen">
           <Outlet />
