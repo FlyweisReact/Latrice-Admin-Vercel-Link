@@ -11,7 +11,7 @@ const Users = () => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
 
-  const salonsData = [
+  const [salonsData, setSalonsData] = useState([
     {
       id: 1,
       fullName: 'Alyvia Kelley',
@@ -116,7 +116,7 @@ const Users = () => {
       status: 'Active',
       blocked: false
     }
-  ];
+  ]);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -149,8 +149,16 @@ const Users = () => {
   const endIndex = startIndex + itemsPerPage;
   const currentData = salonsData.slice(startIndex, endIndex);
 
+
+
   const handleToggleBlock = (id) => {
-    console.log('Toggle block for user:', id);
+    setSalonsData(prevData =>
+      prevData.map(user =>
+        user.id === id
+          ? { ...user, blocked: !user.blocked, status: !user.blocked ? 'Blocked' : 'Active' }
+          : user
+      )
+    );
   };
 
   const handleDeleteClick = (id) => {
@@ -172,10 +180,10 @@ const Users = () => {
         <h1 className="text-2xl lg:text-3xl font-[Rasa] font-semibold text-gray-900">
           Users
         </h1>
-        
+
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <div className="relative">
-            <select 
+            <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 text-sm font-[Rasa] text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[120px]"
@@ -188,8 +196,8 @@ const Users = () => {
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
           </div>
 
-          <button 
-            onClick={() => navigate('/dashboard/users/add')} 
+          <button
+            onClick={() => navigate('/dashboard/users/add')}
             className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-[Rasa] font-medium hover:bg-gray-50 transition-colors flex items-center gap-2 whitespace-nowrap"
           >
             <Plus className="w-4 h-4" />
@@ -259,39 +267,37 @@ const Users = () => {
                     </span>
                     <button
                       onClick={() => handleToggleBlock(salon.id)}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                        salon.blocked ? 'bg-red-500' : 'bg-green-500'
-                      }`}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${salon.blocked ? 'bg-red-500' : 'bg-green-500'
+                        }`}
                     >
                       <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                          salon.blocked ? 'translate-x-6' : 'translate-x-1'
-                        }`}
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${salon.blocked ? 'translate-x-6' : 'translate-x-1'
+                          }`}
                       />
                     </button>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-2">
-                    <button 
+                    <button
                       onClick={() => navigate(`/dashboard/users/edit/${salon.id}`)}
                       className="p-2 text-gray-400 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50"
                     >
                       <Edit className="w-4 h-4" />
                     </button>
-                    <button 
+                    <button
                       onClick={() => navigate(`/dashboard/users/view/${salon.id}`)}
                       className="p-2 text-gray-400 hover:text-green-600 transition-colors rounded-lg hover:bg-green-50"
                     >
                       <Eye className="w-4 h-4" />
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleDeleteClick(salon.id)}
                       className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
-                   
+
                   </div>
                 </td>
               </tr>
@@ -301,7 +307,7 @@ const Users = () => {
       </div>
 
       {/* Delete Popup */}
-      <DeleteUserPopup 
+      <DeleteUserPopup
         isOpen={showDeletePopup}
         onClose={() => setShowDeletePopup(false)}
         onConfirm={handleDeleteConfirm}
@@ -336,16 +342,15 @@ const Users = () => {
           {[...Array(Math.min(5, totalPages))].map((_, index) => {
             const pageNumber = index + 1;
             const isActive = pageNumber === currentPage;
-            
+
             return (
               <button
                 key={pageNumber}
                 onClick={() => setCurrentPage(pageNumber)}
-                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${
-                  isActive
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'text-gray-600 border-gray-300 hover:bg-gray-100'
-                }`}
+                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${isActive
+                  ? 'bg-blue-600 text-white border-blue-600'
+                  : 'text-gray-600 border-gray-300 hover:bg-gray-100'
+                  }`}
               >
                 {pageNumber}
               </button>
@@ -357,11 +362,10 @@ const Users = () => {
               <span className="px-2 text-sm font-[Rasa] text-gray-500">...</span>
               <button
                 onClick={() => setCurrentPage(totalPages)}
-                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${
-                  currentPage === totalPages
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'text-gray-600 border-gray-300 hover:bg-gray-100'
-                }`}
+                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${currentPage === totalPages
+                  ? 'bg-blue-600 text-white border-blue-600'
+                  : 'text-gray-600 border-gray-300 hover:bg-gray-100'
+                  }`}
               >
                 {totalPages}
               </button>
