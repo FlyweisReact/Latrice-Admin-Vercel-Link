@@ -595,7 +595,7 @@ const AddSalon = () => {
           }}
         >
           <div className="px-5">
-            <h2 className="text-xl font-semibold mb-4">Taxpayer Identification</h2>
+            <h2 className="text-[32px] text-[#232323] font-medium mb-4">Taxpayer Identification</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* SSN / ITIN */}
