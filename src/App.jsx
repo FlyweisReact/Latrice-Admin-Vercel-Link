@@ -41,6 +41,8 @@ const AddIndependent = lazy(() => import("./components/Independents/AddIndepende
 const EditIndependent = lazy(() => import("./components/Independents/EditIndependent"));
 const ViewIndependent = lazy(() => import("./components/Independents/ViewIndependent"));
 const WalletIndependent = lazy(() => import("./components/Independents/WalletIndependent"));
+const TransactionViewIndependent = lazy(() => import("./components/Independents/TransactionView"));
+
 
 // New User Action Pages
 const AddUser = lazy(() => import("./components/Users/AddUser"));
@@ -92,6 +94,8 @@ export default function App() {
             <Route path="independents/edit/:id" element={<EditIndependent />} />
             <Route path="independents/view/:id" element={<ViewIndependent />} />
             <Route path="independents/wallet/:id" element={<WalletIndependent />} />
+            <Route path="independents/wallet/transaction/:transactionId" element={<TransactionViewIndependent />} />
+
 
             <Route path="users" element={<Users />} />
             <Route path="users/add" element={<AddUser />} />
