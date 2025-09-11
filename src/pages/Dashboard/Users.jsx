@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Edit, Eye, Trash2, Download, ChevronDown, Plus } from 'lucide-react';
+import { Edit, Eye, Trash2, ChevronDown, Plus } from 'lucide-react';
 
-import DeleteUserPopup from '../../components/Users/DeleteUserPopup';
 const Users = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
@@ -149,14 +148,12 @@ const Users = () => {
   const endIndex = startIndex + itemsPerPage;
   const currentData = salonsData.slice(startIndex, endIndex);
 
-
-
   const handleToggleBlock = (id) => {
-    setSalonsData(prevData =>
-      prevData.map(user =>
-        user.id === id
-          ? { ...user, blocked: !user.blocked, status: !user.blocked ? 'Blocked' : 'Active' }
-          : user
+    setSalonsData((prevSalonsData) =>
+      prevSalonsData.map((salon) =>
+        salon.id === id
+          ? { ...salon, blocked: !salon.blocked, status: salon.blocked ? 'Active' : 'Blocked' }
+          : salon
       )
     );
   };
@@ -166,18 +163,24 @@ const Users = () => {
     setShowDeletePopup(true);
   };
 
-  const handleDeleteConfirm = (id) => {
-    // Add delete logic here (e.g., API call)
-    console.log('Deleting user:', id);
+  const handleDeleteConfirm = () => {
+    setSalonsData((prevSalonsData) =>
+      prevSalonsData.filter((salon) => salon.id !== selectedUserId)
+    );
+    setShowDeletePopup(false);
+    setSelectedUserId(null);
+  };
+
+  const handleDeleteCancel = () => {
     setShowDeletePopup(false);
     setSelectedUserId(null);
   };
 
   return (
-    <div className="w-full  min-h-screen">
+    <div className="w-full min-h-screen">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 border-b border-gray-200">
-        <h1 className="text-2xl lg:text-3xl font-[Rasa] font-semibold text-gray-900">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-2 border-b border-gray-200">
+        <h1 className="text-[50px] font-[Rasa] font-semibold text-[#2f2f2f]">
           Users
         </h1>
 
@@ -186,7 +189,7 @@ const Users = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 text-sm font-[Rasa] text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[120px]"
+              className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 text-[20px] font-[Rasa] text-[#2f2f2f] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[120px]"
             >
               <option value="name">Sort By</option>
               <option value="date">Date Joined</option>
@@ -196,191 +199,191 @@ const Users = () => {
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
           </div>
 
-          <button
-            onClick={() => navigate('/dashboard/users/add')}
-            className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-[Rasa] font-medium hover:bg-gray-50 transition-colors flex items-center gap-2 whitespace-nowrap"
-          >
-            <Plus className="w-4 h-4" />
-            Add A New User
-          </button>
+          <div className="bg-white border border-gray-300 px-4 py-2 rounded-lg">
+            <button
+              className="text-[#2f2f2f] text-[20px] font-[Rasa] font-medium hover:bg-gray-50 transition-colors flex items-center gap-2 whitespace-nowrap"
+              onClick={() => navigate(`/dashboard/users/add`)}
+            >
+              <Plus className="w-4 h-4" />
+              Add A New User
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Table Container */}
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          {/* Table Header */}
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider w-16">
-                #
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider min-w-[150px]">
-                Full Name
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider min-w-[150px]">
-                Shop Name
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider min-w-[120px]">
-                Joined On
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider min-w-[100px]">
-                Status
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider min-w-[140px]">
-                Block/Unblock
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-[Rasa] font-medium text-gray-500 uppercase tracking-wider min-w-[120px]">
-                Actions
-              </th>
-            </tr>
-          </thead>
-
-          {/* Table Body */}
-          <tbody className="bg-white divide-y divide-gray-200">
-            {currentData.map((salon, index) => (
-              <tr key={salon.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-900">
-                  {startIndex + index + 1}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-900">
-                  {salon.fullName}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-900">
-                  {salon.shopName}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-[Rasa] text-gray-600">
-                  {salon.joinedOn}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${getStatusDot(salon.status)}`}></div>
-                    <span className={`text-sm font-[Rasa] font-medium ${getStatusColor(salon.status)}`}>
-                      {salon.status}
-                    </span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-[Rasa] text-gray-700">
-                      {salon.blocked ? 'Block' : 'Unblock'}
-                    </span>
-                    <button
-                      onClick={() => handleToggleBlock(salon.id)}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${salon.blocked ? 'bg-red-500' : 'bg-green-500'
-                        }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${salon.blocked ? 'translate-x-6' : 'translate-x-1'
-                          }`}
-                      />
-                    </button>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => navigate(`/dashboard/users/edit/${salon.id}`)}
-                      className="p-2 text-gray-400 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50"
-                    >
-                      <Edit className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => navigate(`/dashboard/users/view/${salon.id}`)}
-                      className="p-2 text-gray-400 hover:text-green-600 transition-colors rounded-lg hover:bg-green-50"
-                    >
-                      <Eye className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteClick(salon.id)}
-                      className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-
-                  </div>
-                </td>
+      <div className="py-4 px-2 rounded-xl" style={{ boxShadow: "0px 4px 4px 0px #EEEEEE80, 0px 0px 4px 0px #00000040" }}>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead className="bg-gray-50 text-[20px]">
+              <tr>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">
+                  #
+                </th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">
+                  Full Name
+                </th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">
+                  Shop Name
+                </th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">
+                  Joined On
+                </th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">
+                  Status
+                </th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">
+                  Block/Unblock
+                </th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">
+                  Actions
+                </th>
               </tr>
+            </thead>
+
+            <tbody className="bg-white divide-y divide-gray-200">
+              {currentData.map((salon, index) => (
+                <tr key={salon.id} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">
+                    {startIndex + index + 1}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">
+                    {salon.fullName}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">
+                    {salon.shopName}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">
+                    {salon.joinedOn}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap border border-[#E9ECEF]">
+                    <div className="flex items-center gap-2">
+                      <div className={`w-2 h-2 rounded-full ${getStatusDot(salon.status)}`}></div>
+                      <span className={`text-[20px] font-[Rasa] text-[#2f2f2f] ${getStatusColor(salon.status)}`}>
+                        {salon.status}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap border border-[#E9ECEF]">
+                    <div className="flex items-center gap-3">
+                      <span className="text-[20px] font-[Rasa] text-[#2f2f2f]">
+                        {salon.blocked ? 'Blocked' : 'Unblocked'}
+                      </span>
+                      <button
+                        onClick={() => handleToggleBlock(salon.id)}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${salon.blocked ? 'bg-red-500' : 'bg-green-500'}`}
+                      >
+                        <span
+                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${salon.blocked ? 'translate-x-6' : 'translate-x-1'}`}
+                        />
+                      </button>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap border border-[#E9ECEF]">
+                    <div className="flex items-center gap-2">
+                      <div className="border-2 rounded-[6px] border-[#E9ECEF]">
+                        <button
+                          onClick={() => navigate(`/dashboard/users/edit/${salon.id}`)}
+                          className="p-2 text-gray-400 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50"
+                        >
+                          <Edit className="w-4 h-4 text-black" />
+                        </button>
+                      </div>
+                      <div className="border-2 rounded-[6px] border-[#E9ECEF]">
+                        <button
+                          onClick={() => navigate(`/dashboard/users/view/${salon.id}`)}
+                          className="p-2 text-gray-400 hover:text-green-600 transition-colors rounded-lg hover:bg-green-50"
+                        >
+                          <Eye className="w-4 h-4 text-black" />
+                        </button>
+                      </div>
+                      <div className="border-2 rounded-[6px] border-[#E9ECEF]">
+                        <button
+                          onClick={() => handleDeleteClick(salon.id)}
+                          className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50"
+                        >
+                          <Trash2 className="w-4 h-4 text-black" />
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="flex items-center justify-start gap-10 px-4 py-3 bg-gray-50">
+          <div className="flex items-center gap-2">
+            <div className="border border-[#CED4DA] rounded bg-[#ced4da]">
+              <button
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 border rounded disabled:opacity-50"
+              >
+                ‹
+              </button>
+            </div>
+            {[...Array(totalPages)].map((_, i) => (
+              <div className={`${currentPage === i + 1 ? "border border-[#2F2F2F]" : "border border-[#CED4DA] rounded"}`} key={i}>
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`px-3 py-1 border rounded ${currentPage === i + 1 ? "text-black border border-[#2F2F2F]" : "hover:bg-gray-100"}`}
+                >
+                  {i + 1}
+                </button>
+              </div>
             ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Delete Popup */}
-      <DeleteUserPopup
-        isOpen={showDeletePopup}
-        onClose={() => setShowDeletePopup(false)}
-        onConfirm={handleDeleteConfirm}
-        userId={selectedUserId}
-      />
-
-      {/* Pagination */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t border-gray-200 bg-gray-50">
-        <div className="flex items-center gap-2">
-          <select
-            value={itemsPerPage}
-            onChange={(e) => setItemsPerPage(Number(e.target.value))}
-            className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1 text-sm font-[Rasa] text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={50}>50</option>
-          </select>
-          <span className="text-sm font-[Rasa] text-gray-600">/page</span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-            disabled={currentPage === 1}
-            className="px-3 py-1 text-sm font-[Rasa] text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            ‹
-          </button>
-
-          {[...Array(Math.min(5, totalPages))].map((_, index) => {
-            const pageNumber = index + 1;
-            const isActive = pageNumber === currentPage;
-
-            return (
+            <div className="border border-[#CED4DA] rounded bg-[#ced4da]">
               <button
-                key={pageNumber}
-                onClick={() => setCurrentPage(pageNumber)}
-                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${isActive
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'text-gray-600 border-gray-300 hover:bg-gray-100'
-                  }`}
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 border rounded disabled:opacity-50"
               >
-                {pageNumber}
+                ›
               </button>
-            );
-          })}
-
-          {totalPages > 5 && (
-            <>
-              <span className="px-2 text-sm font-[Rasa] text-gray-500">...</span>
-              <button
-                onClick={() => setCurrentPage(totalPages)}
-                className={`px-3 py-1 text-sm font-[Rasa] border rounded-lg transition-colors ${currentPage === totalPages
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'text-gray-600 border-gray-300 hover:bg-gray-100'
-                  }`}
-              >
-                {totalPages}
-              </button>
-            </>
-          )}
-
-          <button
-            onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-            disabled={currentPage === totalPages}
-            className="px-3 py-1 text-sm font-[Rasa] text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            ›
-          </button>
+            </div>
+          </div>
+          <div className="flex items-center gap-1">
+            <select
+              value={itemsPerPage}
+              onChange={(e) => setItemsPerPage(Number(e.target.value))}
+              className="border rounded px-2 py-1 text-sm"
+            >
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+            </select>
+            <span className="text-sm text-gray-600">/Page</span>
+          </div>
         </div>
       </div>
+
+      {showDeletePopup && (
+        <div className="fixed inset-0 bg-black/30 bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-[300px] text-center">
+            <h2 className="text-xl font-[Rasa] font-medium text-gray-900 mb-4">Are you sure?</h2>
+            <div className="flex justify-around">
+              <button
+                onClick={handleDeleteCancel}
+                className="px-4 py-2 bg-gray-400 text-white rounded-full hover:bg-gray-500 transition-colors"
+              >
+                No, Cancel
+              </button>
+              <button
+                onClick={handleDeleteConfirm}
+                className="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+              >
+                Yes, Delete
+              </button>
+            </div>
+            {selectedUserId && (
+              <p className="text-sm text-gray-600 mt-4">
+                {salonsData.find((s) => s.id === selectedUserId)?.shopName} -{' '}
+                {salonsData.find((s) => s.id === selectedUserId)?.joinedOn}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

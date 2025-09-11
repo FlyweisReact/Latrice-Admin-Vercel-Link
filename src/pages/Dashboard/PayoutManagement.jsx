@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { Send, Plus, ArrowUpRight } from "lucide-react";
 
 const PayoutManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const payoutData = [
     { id: 1, name: "Wilson George", email: "email@example.com", date: "06/06/2023", time: "01:00 PM", amount: "$400" },
@@ -20,59 +21,59 @@ const PayoutManagement = () => {
     { id: 13, name: "Anika Franci", email: "email@example.com", date: "11/08/2023", time: "01:00 PM", amount: "$480" },
   ];
 
-  const totalPages = 4;
+  const totalPages = Math.ceil(payoutData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = payoutData.slice(startIndex, endIndex);
 
   return (
-    <div className="p-6 lg:p-2 w-full max-w-full font-[Rasa]">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 w-full">
-        <h1 className="text-3xl font-bold text-gray-900 font-[Rasa]">
+    <div className="w-full min-h-screen">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-2 border-b border-gray-200">
+        <h1 className="text-[50px] font-[Rasa] font-semibold text-[#2f2f2f]">
           Payout Management
         </h1>
-
         <div className="flex items-center gap-2">
-          <button className="px-4 py-1.5 rounded border text-sm font-medium bg-gray-900 text-white">
+          <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-[20px] font-[Rasa] text-[#2f2f2f] hover:bg-gray-50 transition-colors">
             Day
           </button>
-          <button className="px-4 py-1.5 rounded border text-sm font-medium text-gray-600 bg-gray-100">
+          <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-[20px] font-[Rasa] text-[#2f2f2f] hover:bg-gray-50 transition-colors">
             Week
           </button>
-          <button className="px-4 py-1.5 rounded border text-sm font-medium text-gray-600 bg-gray-100">
+          <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-[20px] font-[Rasa] text-[#2f2f2f] hover:bg-gray-50 transition-colors">
             Month
           </button>
-          <button className="px-4 py-1.5 rounded border text-sm font-medium text-gray-600 bg-gray-100">
-            Last 3 month
+          <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-[20px] font-[Rasa] text-[#2f2f2f] hover:bg-gray-50 transition-colors">
+            Last 3 Months
           </button>
-          <button className="ml-3 px-4 py-1.5 rounded border text-sm font-medium text-gray-700 bg-white shadow-sm flex items-center gap-2">
-            <span>Export</span>
+          <button className="ml-3 px-4 py-2 bg-white border border-gray-300 rounded-lg text-[20px] font-[Rasa] text-[#2f2f2f] hover:bg-gray-50 transition-colors flex items-center gap-2">
+            <Plus className="w-4 h-4" />
+            Export
           </button>
         </div>
       </div>
-
-      {/* Table */}
-      <div className="bg-white rounded-lg shadow border border-gray-200 w-full">
-        <div className="overflow-x-auto w-full">
+      <div className="py-4 px-2 rounded-xl" style={{ boxShadow: "0px 4px 4px 0px #EEEEEE80, 0px 0px 4px 0px #00000040" }}>
+        <div className="overflow-x-auto">
           <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="py-3 px-6 text-sm font-bold text-gray-700 text-left">#</th>
-                <th className="py-3 px-6 text-sm font-bold text-gray-700 text-left">Full Name</th>
-                <th className="py-3 px-6 text-sm font-bold text-gray-700 text-left">Email</th>
-                <th className="py-3 px-6 text-sm font-bold text-gray-700 text-left">Date</th>
-                <th className="py-3 px-6 text-sm font-bold text-gray-700 text-left">Time</th>
-                <th className="py-3 px-6 text-sm font-bold text-gray-700 text-left">Amount</th>
-                <th className="py-3 px-6 text-sm font-bold text-gray-700 text-left">Send</th>
+            <thead className="bg-gray-50 text-[20px]">
+              <tr>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">#</th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">Full Name</th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">Email</th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">Date</th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">Time</th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">Amount</th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">Send</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
-              {payoutData.map((item) => (
-                <tr key={item.id}>
-                  <td className="py-3 px-6 text-sm text-gray-700">{item.id}</td>
-                  <td className="py-3 px-6 text-sm font-medium text-gray-900">{item.name}</td>
-                  <td className="py-3 px-6 text-sm text-gray-700">{item.email}</td>
-                  <td className="py-3 px-6 text-sm text-gray-700">{item.date}</td>
-                  <td className="py-3 px-6 text-sm text-gray-700">{item.time}</td>
-                  <td className="py-3 px-6 text-sm font-medium text-gray-900">{item.amount}</td>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {currentData.map((item) => (
+                <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">{item.id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">{item.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">{item.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">{item.date}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">{item.time}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">{item.amount}</td>
                   <td className="py-3 px-6">
                     <button className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-md flex items-center justify-center transition-colors duration-200">
                       <ArrowUpRight className="w-4 h-4" />
@@ -83,48 +84,49 @@ const PayoutManagement = () => {
             </tbody>
           </table>
         </div>
-
-        {/* Pagination */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-6 py-3 bg-gray-50 border-t border-gray-200 w-full">
-          <div className="flex items-center space-x-1 justify-center sm:justify-start mb-3 sm:mb-0">
-            <button
-              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-              disabled={currentPage === 1}
-              className="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-50"
-            >
-              ‹
-            </button>
-
-            {[1, 2, 3, 4].map((pageNum) => (
+        <div className="flex items-center justify-start gap-10 px-4 py-3 bg-gray-50">
+          <div className="flex items-center gap-2">
+            <div className="border border-[#CED4DA] rounded bg-[#ced4da]">
               <button
-                key={pageNum}
-                onClick={() => setCurrentPage(pageNum)}
-                className={`w-8 h-8 flex items-center justify-center rounded text-sm font-medium ${
-                  currentPage === pageNum
-                    ? "bg-gray-900 text-white"
-                    : "border border-gray-300 text-gray-700 hover:bg-gray-100"
-                }`}
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 border rounded disabled:opacity-50"
               >
-                {pageNum}
+                ‹
               </button>
+            </div>
+            {[...Array(totalPages)].map((_, i) => (
+              <div className={`${currentPage === i + 1 ? "border border-[#2F2F2F]" : "border border-[#CED4DA] rounded"}`} key={i}>
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`px-3 py-1 border rounded ${currentPage === i + 1 ? "text-black border border-[#2F2F2F]" : "hover:bg-gray-100"}`}
+                >
+                  {i + 1}
+                </button>
+              </div>
             ))}
-
-            <button
-              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-              disabled={currentPage === totalPages}
-              className="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-50"
-            >
-              ›
-            </button>
+            <div className="border border-[#CED4DA] rounded bg-[#ced4da]">
+              <button
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 border rounded disabled:opacity-50"
+              >
+                ›
+              </button>
+            </div>
           </div>
-
-          <div className="flex items-center justify-center sm:justify-end space-x-2 text-sm text-gray-600 font-[Rasa]">
-            <select className="border border-gray-300 rounded px-2 py-1 text-sm">
-              <option>10</option>
-              <option>20</option>
-              <option>50</option>
+          <div className="flex items-center gap-1">
+            <select
+              value={itemsPerPage}
+              onChange={(e) => setItemsPerPage(Number(e.target.value))}
+              className="border rounded px-2 py-1 text-sm"
+            >
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
             </select>
-            <span>/page</span>
+            <span className="text-sm text-gray-600">/Page</span>
           </div>
         </div>
       </div>

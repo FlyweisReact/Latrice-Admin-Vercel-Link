@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { ChevronDown, Send, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Send } from "lucide-react";
 
 const CommissionRevenue = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const commissionData = [
     { id: 1, name: "Miracle Siphron", invitedPeople: 10, status: "Completed", amount: "$100", statusType: "completed" },
@@ -20,139 +21,137 @@ const CommissionRevenue = () => {
     { id: 13, name: "Talan Siphron", invitedPeople: 9, status: "1 Remaining", amount: "$90", statusType: "remaining" },
   ];
 
-  const totalPages = 10;
-  const pageNumbers = [1, 2, 3, 4];
+  const getStatusColor = (statusType) => {
+    switch (statusType) {
+      case "completed":
+        return "bg-[#56BA28] text-white px-7 py-1 rounded-[100px] ";
+      case "remaining":
+        return "bg-[#FFCC4E] text-[#2F2F2F] px-7 py-1 rounded-[100px] ";
+      default:
+        return "bg-gray-600";
+    }
+  };
 
-  const StatusBadge = ({ status, type }) =>
-    type === "completed" ? (
-      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-500 text-white">
-        {status}
-      </span>
-    ) : (
-      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-orange-400 text-white">
-        {status}
-      </span>
-    );
+  const getStatusDot = (statusType) => {
+    switch (statusType) {
+      case "completed":
+        return "bg-green-500";
+      case "remaining":
+        return "bg-orange-500";
+      default:
+        return "bg-gray-500";
+    }
+  };
 
-  const ActionButton = ({ type }) =>
-    type === "completed" ? (
-      <button className="w-8 h-8 bg-green-500 hover:bg-green-600 text-white rounded-md flex items-center justify-center transition-colors duration-200 shadow-sm">
-        <Send className="w-4 h-4" />
-      </button>
-    ) : (
-      <button className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-md flex items-center justify-center transition-colors duration-200">
-        <ArrowUpRight className="w-4 h-4" />
-      </button>
-    );
+  const totalPages = Math.ceil(commissionData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = commissionData.slice(startIndex, endIndex);
 
   return (
-    <div className="p-4 lg:p-2 w-full max-w-full">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 w-full">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 font-[Rasa]">
+    <div className="w-full min-h-screen">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-2 border-b border-gray-200">
+        <h1 className="text-[50px] font-[Rasa] font-semibold text-[#2f2f2f]">
           Commission and Revenue Management
         </h1>
-        <div className="relative w-full sm:w-auto">
-          <select className="appearance-none w-full sm:w-48 bg-white border border-gray-300 rounded-md px-4 py-2 pr-10 text-sm text-gray-700">
+        <div className="relative">
+          <select
+            className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 text-[20px] font-[Rasa] text-[#2f2f2f] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[120px]"
+          >
             <option>Sort By</option>
             <option>Name</option>
             <option>Amount</option>
             <option>Status</option>
             <option>Invited People</option>
           </select>
-          <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+          <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
         </div>
       </div>
-
-      {/* Table */}
-      <div className="bg-white rounded-lg shadow border border-gray-200 w-full">
-        <div className="overflow-x-auto w-full">
-          <table className="w-full min-w-[600px] border-collapse">
-            <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="py-3 px-4 sm:px-6 text-sm font-bold text-gray-700 font-[Rasa] text-left">#</th>
-                <th className="py-3 px-4 sm:px-6 text-sm font-bold text-gray-700 font-[Rasa] text-left">Name</th>
-                <th className="py-3 px-4 sm:px-6 text-sm font-bold text-gray-700 font-[Rasa] text-left">Invited People</th>
-                <th className="py-3 px-4 sm:px-6 text-sm font-bold text-gray-700 font-[Rasa] text-left">Status</th>
-                <th className="py-3 px-4 sm:px-6 text-sm font-bold text-gray-700 font-[Rasa] text-left">Amount</th>
-                <th className="py-3 px-4 sm:px-6 text-sm font-bold text-gray-700 font-[Rasa] text-left">Send</th>
+      <div className="py-4 px-2 rounded-xl" style={{ boxShadow: "0px 4px 4px 0px #EEEEEE80, 0px 0px 4px 0px #00000040" }}>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead className="bg-gray-50 text-[20px]">
+              <tr>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">#</th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">Name</th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">Invited People</th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">Status</th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">Amount</th>
+                <th className="px-4 py-2 text-left text-[20px] font-medium text-[#2F2F2F] tracking-wider border border-[#E9ECEF]">Send</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
-              {commissionData.map((item) => (
-                <tr key={item.id}>
-                  <td className="py-3 px-4 sm:px-6 text-sm text-gray-700 font-[Rasa]">{item.id}</td>
-                  <td className="py-3 px-4 sm:px-6 text-sm text-gray-900 font-medium font-[Rasa]">{item.name}</td>
-                  <td className="py-3 px-4 sm:px-6 text-sm text-gray-700 font-[Rasa]">
+            <tbody className="bg-white divide-y divide-gray-200">
+              {currentData.map((item) => (
+                <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">{item.id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">{item.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">
                     {item.invitedPeople.toString().padStart(2, "0")}
                   </td>
-                  <td className="py-3 px-4 sm:px-6">
-                    <StatusBadge status={item.status} type={item.statusType} />
+                  <td className="px-6 py-4 whitespace-nowrap border border-[#E9ECEF]">
+                    <div className="flex items-center gap-2">
+                      <div className={`w-2 h-2 rounded-full`}></div>
+                      <span className={`text-[20px] font-[Rasa] ${getStatusColor(item.statusType)}`}>{item.status}</span>
+                    </div>
                   </td>
-                  <td className="py-3 px-4 sm:px-6 text-sm text-gray-900 font-medium font-[Rasa]">{item.amount}</td>
-                  <td className="py-3 px-4 sm:px-6">
-                    <ActionButton type={item.statusType} />
+                  <td className="px-6 py-4 whitespace-nowrap text-[20px] font-[Rasa] text-[#2f2f2f] border border-[#E9ECEF]">{item.amount}</td>
+                  <td className="px-2 py-4 whitespace-nowrap border border-[#E9ECEF]">
+                    <div className={`flex items-center justify-center  }`}>
+                      <button
+                        className=" text-gray-400 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50"
+                      >
+                      <ArrowUpRight className={`w-6 h-6 ${item.statusType === "remaining" ? "border border-[#E9ECEF]" : "text-white rounded bg-[#56BA28]" }`} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-
-        {/* Pagination */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 sm:px-6 py-3 bg-gray-50 border-t border-gray-200 w-full">
-          <div className="flex items-center space-x-1 justify-center sm:justify-start mb-3 sm:mb-0">
-            <button
-              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-              disabled={currentPage === 1}
-              className="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-50"
-            >
-              ‹
-            </button>
-
-            {pageNumbers.map((pageNum) => (
+        <div className="flex items-center justify-start gap-10 px-4 py-3 bg-gray-50">
+          <div className="flex items-center gap-2">
+            <div className="border border-[#CED4DA] rounded bg-[#ced4da]">
               <button
-                key={pageNum}
-                onClick={() => setCurrentPage(pageNum)}
-                className={`w-8 h-8 flex items-center justify-center rounded text-sm font-medium ${
-                  currentPage === pageNum
-                    ? "bg-blue-600 text-white"
-                    : "border border-gray-300 text-gray-700 hover:bg-gray-100"
-                }`}
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 border rounded disabled:opacity-50"
               >
-                {pageNum}
+                ‹
               </button>
+            </div>
+            {[...Array(totalPages)].map((_, i) => (
+              <div className={`${currentPage === i + 1 ? "border border-[#2F2F2F]" : "border border-[#CED4DA] rounded"}`} key={i}>
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`px-3 py-1 border rounded ${currentPage === i + 1 ? "text-black border border-[#2F2F2F]" : "hover:bg-gray-100"}`}
+                >
+                  {i + 1}
+                </button>
+              </div>
             ))}
-
-            <span className="w-8 h-8 flex items-center justify-center text-gray-400">...</span>
-
-            <button
-              onClick={() => setCurrentPage(totalPages)}
-              className={`w-8 h-8 flex items-center justify-center rounded text-sm font-medium ${
-                currentPage === totalPages
-                  ? "bg-blue-600 text-white"
-                  : "border border-gray-300 text-gray-700 hover:bg-gray-100"
-              }`}
-            >
-              {totalPages}
-            </button>
-
-            <button
-              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-              disabled={currentPage === totalPages}
-              className="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-50"
-            >
-              ›
-            </button>
+            <div className="border border-[#CED4DA] rounded bg-[#ced4da]">
+              <button
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 border rounded disabled:opacity-50"
+              >
+                ›
+              </button>
+            </div>
           </div>
-
-          <div className="flex items-center justify-center sm:justify-end space-x-2 text-sm text-gray-600 font-[Rasa]">
-            <select className="border border-gray-300 rounded px-2 py-1 text-sm">
-              <option>10</option>
-              <option>20</option>
-              <option>50</option>
+          <div className="flex items-center gap-1">
+            <select
+              value={itemsPerPage}
+              onChange={(e) => setItemsPerPage(Number(e.target.value))}
+              className="border rounded px-2 py-1 text-sm"
+            >
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
             </select>
-            <span>/page</span>
+            <span className="text-sm text-gray-600">/Page</span>
           </div>
         </div>
       </div>
