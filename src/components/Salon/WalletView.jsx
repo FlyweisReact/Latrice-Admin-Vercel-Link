@@ -1,6 +1,6 @@
 import React from "react";
 import { ArrowUpRight, ChevronLeft, ExternalLink } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 
 const WalletView = () => {
@@ -58,7 +58,7 @@ const WalletView = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row items-center justify-between mb-6 gap-3 font-[rasa]">
         <div className="flex items-center space-x-2">
-        <div className="cursor-pointer" onClick={() => nav(-1)}><FaArrowLeft /></div>
+          <div className="cursor-pointer" onClick={() => nav(-1)}><FaArrowLeft /></div>
           <h2 className="text-xl font-semibold">Sexy Braids’s Wallet</h2>
         </div>
         <h2 className="text-xl font-bold">$100</h2>
@@ -110,10 +110,19 @@ const WalletView = () => {
                 </td>
                 <td className="p-3">{row.amount}</td>
                 <td className="p-3 flex items-center justify-start space-x-2">
-                  <span>{row.txn}</span>
-                  <button className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-md flex items-center justify-center transition-colors duration-200">
+                  <Link
+                    to={`/dashboard/salons/wallet/transaction/${row.txn}`}
+                    className="hover:underline"
+                  >
+                    {row.txn}
+                  </Link>
+                  <Link
+                    to={`/dashboard/salons/wallet/transaction/${row.txn}`}
+                    className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-md flex items-center justify-center transition-colors duration-200"
+                  >
                     <ArrowUpRight className="w-4 h-4" />
-                  </button>                </td>
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>

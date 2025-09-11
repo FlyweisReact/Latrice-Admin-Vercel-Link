@@ -86,12 +86,13 @@ const AdminDashboardLayout = () => {
     navigate("/");
   };
 
-  const isSalonsActive = location.pathname.startsWith("/dashboard/salons");
-  const isIndependentsActive = location.pathname.startsWith("/dashboard/independents");
-  const isUsersActive = location.pathname.startsWith("/dashboard/users");
-  const isCreatePromotionsActive = location.pathname.startsWith("/dashboard/create-promotions");
-  const isCustomerSupportActive = location.pathname.startsWith("/dashboard/customer-support");
-  const isDisputeActive = location.pathname.startsWith("/dashboard/dispute-resolution");
+  const isActive = (item) => {
+    if (item.path === "/dashboard") {
+      return location.pathname === item.path;
+    }
+    return location.pathname.startsWith(item.path) || 
+           (item.name === "Salons" && location.pathname.includes("/salons/wallet"));
+  };
 
   return (
     <div className="flex h-screen bg-white relative overflow-x-hidden font-rasa">
@@ -106,8 +107,9 @@ const AdminDashboardLayout = () => {
       {/* Sidebar */}
       <aside
         id="mobile-sidebar"
-        className={`bg-[#2F2F2F] text-white w-[230px] sm:w-[300px] fixed h-full z-40 transition-all duration-300 ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0 flex flex-col`}
+        className={`bg-[#2F2F2F] text-white w-[230px] sm:w-[300px] fixed h-full z-40 transition-all duration-300 ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 flex flex-col`}
       >
         <div className="p-4 md:block flex items-center justify-between w-full">
           <h1 className="text-[40px] font-bold text-[#FFE6D8] font-[Rasa] text-center">
@@ -128,29 +130,17 @@ const AdminDashboardLayout = () => {
               <li key={item.name} className="mb-2 pl-4 pr-1">
                 <Link
                   to={item.path}
-                  className={`flex items-center px-4 py-3 text-[20px] font-[Rasa] transition-colors duration-200 rounded-[15px] ${(location.pathname === item.path ||
-                    (item.name === "Salons" && isSalonsActive) ||
-                    (item.name === "Independents" && isIndependentsActive) ||
-                    (item.name === "Users" && isUsersActive) ||
-                    (item.name === "Create Promotions" && isCreatePromotionsActive) ||
-                    (item.name === "Customer Support" && isCustomerSupportActive) ||
-                    (item.name === "Dispute Resolution" && isDisputeActive))
-                    ? "bg-[#FFEBBA] text-black"
-                    : "hover:bg-gray-800"
-                    }`}
+                  className={`flex items-center px-4 py-3 text-[20px] font-[Rasa] transition-colors duration-200 rounded-[15px] ${
+                    isActive(item)
+                      ? "bg-[#FFEBBA] text-black"
+                      : "hover:bg-gray-800"
+                  }`}
                   onClick={() => windowWidth < 768 && setIsMobileMenuOpen(false)}
                 >
                   <div
-                    className={`w-8 h-8 rounded-full flex justify-center items-center mr-3 ${(location.pathname === item.path ||
-                      (item.name === "Salons" && isSalonsActive) ||
-                      (item.name === "Independents" && isIndependentsActive) ||
-                      (item.name === "Users" && isUsersActive) ||
-                      (item.name === "Create Promotions" && isCreatePromotionsActive) ||
-                      (item.name === "Customer Support" && isCustomerSupportActive) ||
-                      (item.name === "Dispute Resolution" && isDisputeActive))
-                      ? "bg-white"
-                      : "bg-[#FFCC4E]"
-                      }`}
+                    className={`w-8 h-8 rounded-full flex justify-center items-center mr-3 ${
+                      isActive(item) ? "bg-white" : "bg-[#FFCC4E]"
+                    }`}
                   >
                     {item.icon}
                   </div>
@@ -178,7 +168,6 @@ const AdminDashboardLayout = () => {
       <div className="flex-1 md:ml-[300px] w-full">
         {/* Header */}
         <header className="bg-[#2F2F2F] text-white px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between shadow-md fixed top-0 right-0 left-0 md:left-[300px] z-30 gap-3">
-          {/* Left: Menu + Search */}
           <div className="flex items-center w-full md:w-auto flex-1">
             <button
               data-menu-toggle
@@ -189,7 +178,6 @@ const AdminDashboardLayout = () => {
               <FiMenu size={24} />
             </button>
 
-            {/* Search Bar */}
             <div className="flex items-center w-full xl:w-[600px] bg-white rounded-md overflow-hidden px-3 font-rasa">
               <FiSearch className="text-black text-lg" />
               <input
@@ -199,13 +187,11 @@ const AdminDashboardLayout = () => {
               />
             </div>
 
-            {/* Search button only for desktop */}
             <button className="hidden md:flex bg-[#FBC02D] py-3 px-8 ml-3 items-center justify-center rounded-lg">
               <FiSearch className="text-black text-lg" />
             </button>
           </div>
 
-          {/* Right: Icons + Profile */}
           <div className="flex items-center justify-between md:justify-end w-full md:w-auto space-x-4">
             <button
               onClick={() => navigate("/dashboard/settings")}
@@ -221,7 +207,6 @@ const AdminDashboardLayout = () => {
             </button>
 
             <div className="flex items-center">
-              {/* Name hidden on mobile */}
               <span className="hidden md:inline mr-3 font-medium">Leo Aminoff</span>
               <img
                 src="https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=80&h=60&fit=crop"

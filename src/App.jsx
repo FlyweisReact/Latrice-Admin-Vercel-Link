@@ -34,6 +34,7 @@ const AddSalon = lazy(() => import("./components/Salon/AddSalon"));
 const EditSalon = lazy(() => import("./components/Salon/EditSalon"));
 const ViewSalon = lazy(() => import("./components/Salon/ViewSalon"));
 const WalletView = lazy(() => import("./components/Salon/WalletView"));
+const TransactionView = lazy(() => import("./components/Salon/TransactionView"));
 
 // Independent Action Pages
 const AddIndependent = lazy(() => import("./components/Independents/AddIndependent"));
@@ -83,6 +84,7 @@ export default function App() {
             <Route path="salons/edit/:id" element={<EditSalon />} />
             <Route path="salons/view/:id" element={<ViewSalon />} />
             <Route path="salons/wallet/:id" element={<WalletView />} />
+            <Route path="salons/wallet/transaction/:transactionId" element={<TransactionView />} />
             <Route path="salons/add" element={<AddSalon />} />
 
             <Route path="independents" element={<Independents />} />
