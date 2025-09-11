@@ -51,7 +51,7 @@ const DisputeResolution = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4  border-gray-200 ">
         <h1 className="text-[#2F2F2F]  text-[50px]  font-semibold font-[Rasa]">Dispute Resolution</h1>
       </div>
-      <div className="py-4 px-2"
+      <div className="py-4 px-2 rounded-xl"
         style={{
           boxShadow: "0px 4px 4px 0px #EEEEEE80, 0px 0px 4px 0px #00000040",
         }}>
