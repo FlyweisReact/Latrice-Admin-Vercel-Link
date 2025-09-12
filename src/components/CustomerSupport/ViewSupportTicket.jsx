@@ -1,15 +1,21 @@
-import React, { use } from "react";
+import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const ViewSupportTicket = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const [showReplyInput, setShowReplyInput] = useState(false);
+
+  const handleReplyClick = () => {
+    setShowReplyInput(true);
+  };
+
   return (
     <div className="min-h-screen font-[rasa] p-4">
       {/* Header */}
       <div className="flex items-center mb-6">
-        <ArrowLeft className="w-6 h-6 mr-2" onClick={()=>navigate('/dashboard/customer-support')}/>
-        <h1 className="text-2xl font-bold">Review &amp; Reply</h1>
+        <ArrowLeft className="w-6 h-6 mr-2" onClick={() => navigate('/dashboard/customer-support')} />
+        <h1 className="text-2xl font-bold">Review & Reply</h1>
       </div>
 
       {/* Form Section */}
@@ -69,9 +75,24 @@ const ViewSupportTicket = () => {
           />
         </div>
 
+        {/* Reply Input */}
+        {showReplyInput && (
+          <div>
+            <label className="block font-semibold mb-1">Your Reply</label>
+            <textarea
+              rows="6"
+              placeholder="Enter your reply here..."
+              className="w-full border rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-yellow-400"
+            />
+          </div>
+        )}
+
         {/* Reply Button */}
         <div className="flex justify-center">
-          <button className="bg-black text-yellow-400 font-semibold px-12 py-2 rounded-md shadow-md hover:opacity-90">
+          <button
+            onClick={handleReplyClick}
+            className="bg-black text-yellow-400 font-semibold px-12 py-2 rounded-md shadow-md hover:opacity-90"
+          >
             Reply
           </button>
         </div>
